@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Flipkart Style</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+          crossorigin="anonymous">
+    <!-- Custom CSS -->
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 250px;
+            background-color: #343a40;
+            padding-top: 50px; /* Adjust based on your layout */
+        }
+        .sidebar a {
+            padding: 10px 15px;
+            display: block;
+            color: white;
+            text-decoration: none;
+        }
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+        .sidebar .active {
+            background-color: #495057; /* Active menu item color */
+        }
+        .content {
+            margin-left: 250px; /* Adjust based on your sidebar width */
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="sidebar">
+    <a th:href="@{/dashboard}" th:class="${#httpServletRequest.requestURI == '/dashboard' ? 'active' : ''}">Dashboard</a>
+    <a th:href="@{/orders}" th:class="${#httpServletRequest.requestURI == '/orders' ? 'active' : ''}">Orders</a>
+    <a th:href="@{/products}" th:class="${#httpServletRequest.requestURI == '/products' ? 'active' : ''}">Products</a>
+    <a th:href="@{/add-product}" th:class="${#httpServletRequest.requestURI == '/add-product' ? 'active' : ''}">Add Product</a>
+    <a th:href="@{/users}" th:class="${#httpServletRequest.requestURI == '/users' ? 'active' : ''}">Users</a>
+    <a th:href="@{/reviews}" th:class="${#httpServletRequest.requestURI == '/reviews' ? 'active' : ''}">Reviews</a>
+</div>
+
+<div class="content">
+    <!-- Main content area -->
+    <div class="container mt-4">
+        <!-- Content for each page goes here -->
+        <h2>Welcome to Dashboard</h2>
+        <!-- Dashboard content goes here -->
+    </div>
+</div>
+</body>
+</html>

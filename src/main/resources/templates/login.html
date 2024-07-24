@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Flipkart Style</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+          crossorigin="anonymous">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f1f3f6;
+        }
+        .login-container {
+            max-width: 400px;
+            margin: 0 auto;
+            margin-top: 100px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 40px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.1);
+        }
+        .login-heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .login-form .form-control {
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .login-form .btn-primary {
+            background-color: #fb641b;
+            border: none;
+            width: 100%;
+        }
+        .login-form .btn-primary:hover {
+            background-color: #f5630d;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="login-container">
+        <h2 class="login-heading">Login</h2>
+<!--        <form th:action="@{/login}" method="post" class="login-form">-->
+        <form th:action="@{/dashboard}" method="get" class="login-form">
+            <div class="form-group">
+                <input type="text" id="username" name="username" class="form-control" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn btn-primary mb-3">Login</button>
+            <div class="text-center">
+                <p>Don't have an account? <a href="/register">Create one</a></p>
+                <p>Forgot your password? <a href="/forgot">Reset it</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
