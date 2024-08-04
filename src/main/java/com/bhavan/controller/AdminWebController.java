@@ -1,12 +1,19 @@
 package com.bhavan.controller;
 
 
+import com.bhavan.dto.admin.request.AdminRequest;
+import com.bhavan.service.admin.AdminService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
-public class FlipkartWebController {
+public class AdminWebController {
+
+    @Autowired
+    private AdminService adminService;
 
     @GetMapping("/login")
     public String showLoginForm() {
@@ -14,9 +21,12 @@ public class FlipkartWebController {
     }
 
     @PostMapping("/login")
-    public String login() {
+//    public String login(@RequestBody LoginRequest loginRequest) {
+    public String login(@RequestBody AdminRequest adminRequest) {
         // Handle login logic here
-        return "redirect:/"; // Redirect to home or dashboard
+        adminService.login(adminRequest);
+//        return "redirect:/"; // Redirect to home or dashboard
+        return "login successfully"; // Redirect to home or dashboard
     }
 
     @GetMapping("/register")
@@ -25,8 +35,10 @@ public class FlipkartWebController {
     }
 
     @PostMapping("/register")
-    public String register() {
+    public String register(@RequestBody AdminRequest adminRequest) {
         // Handle registration logic here
+        adminService.register(adminRequest);
+
         return "redirect:/login"; // Redirect to login page after registration
     }
 
@@ -38,8 +50,9 @@ public class FlipkartWebController {
 
     // Password Reset Form Submission
     @PostMapping("/reset-password")
-    public String resetPasswordSubmit() {
+    public String resetPasswordSubmit(@RequestBody AdminRequest adminRequest) {
         // Implement password reset logic here
+        adminService.resetPassword(adminRequest);
         return "redirect:/login"; // Redirect to login page after successful password reset
     }
 
