@@ -121,4 +121,9 @@ public class AdminWebController {
     public String products() {
         return "products";
     }
+
+    @GetMapping("/users")
+    public String users(){
+        
+    }
 }

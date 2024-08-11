@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users - Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .sidebar {
+            background: linear-gradient(135deg, #007bff 0%, #00d2d3 100%);
+            color: #fff;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            padding-top: 20px;
+            z-index: 1000;
+        }
+        .sidebar a {
+            color: #fff;
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .sidebar a:hover {
+            background-color: #0056b3;
+        }
+        .sidebar a.active {
+            background-color: #0056b3;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .table th, .table td {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<!-- Sidebar -->
+<div class="sidebar">
+    <a href="/orders">Orders</a>
+    <a href="/products">Products</a>
+    <a href="/users" class="active">Users</a>
+    <a href="/reviews">Reviews</a>
+</div>
+
+<!-- Content -->
+<div class="content">
+    <h2>User Management</h2>
+
+    <!-- Search Form -->
+    <form id="searchForm" class="mb-4">
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="status">Status</label>
+                <input type="text" id="status" class="form-control" placeholder="Status">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="fromDate">From Date</label>
+                <input type="date" id="fromDate" class="form-control">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="toDate">To Date</label>
+                <input type="date" id="toDate" class="form-control">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="userId">User ID</label>
+                <input type="text" id="userId" class="form-control" placeholder="User ID">
+            </div>
+        </div>
+        <button type="button" id="searchButton" class="btn btn-primary">Search</button>
+    </form>
+
+    <!-- Results Table -->
+    <table id="resultsTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th>User ID</th>
+            <th>Username</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Data rows will be inserted here dynamically -->
+        </tbody>
+    </table>
+</div>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    document.getElementById('searchButton').addEventListener('click', function() {
+        const status = document.getElementById('status').value;
+        const fromDate = document.getElementById('fromDate').value;
+        const toDate = document.getElementById('toDate').value;
+        const userId = document.getElementById('userId').value;
+
+        // Example data; replace with actual data retrieval via AJAX
+        const results = [
+            { id: '1', username: 'john_doe', createdAt: '2024-01-01', updatedAt: '2024-01-10' },
+            { id: '2', username: 'jane_smith', createdAt: '2024-02-01', updatedAt: '2024-02-15' }
+        ];
+
+        const tbody = document.getElementById('resultsTable').getElementsByTagName('tbody')[0];
+        tbody.innerHTML = ''; // Clear previous results
+
+        results.forEach(user => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${user.id}</td>
+                <td>${user.username}</td>
+                <td>${user.createdAt}</td>
+                <td>${user.updatedAt}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    });
+</script>
+</body>
+</html>
