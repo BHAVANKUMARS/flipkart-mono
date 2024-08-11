@@ -7,52 +7,108 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
           crossorigin="anonymous">
-    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 250px;
-            background-color: #343a40;
-            padding-top: 50px; /* Adjust based on your layout */
+        body {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            font-family: 'Arial', sans-serif;
         }
-        .sidebar a {
-            padding: 10px 15px;
-            display: block;
-            color: white;
-            text-decoration: none;
+        .container {
+            margin-top: 30px;
         }
-        .sidebar a:hover {
-            background-color: #495057;
+        h2 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-align: center;
         }
-        .sidebar .active {
-            background-color: #495057; /* Active menu item color */
+        .dashboard-card {
+            margin-bottom: 20px;
+            border-radius: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .content {
-            margin-left: 250px; /* Adjust based on your sidebar width */
-            padding: 20px;
+        .dashboard-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 10px 20px rgba(0,0,0,0.2);
+        }
+        .card-body {
+            color: #fff;
+        }
+        .card.admin {
+            background: linear-gradient(135deg, #007bff 0%, #00d2d3 100%);
+        }
+        .card.customer {
+            background: linear-gradient(135deg, #28a745 0%, #00c6ff 100%);
+        }
+        .card.product {
+            background: linear-gradient(135deg, #ffc107 0%, #ff5f6d 100%);
+        }
+        .card.order {
+            background: linear-gradient(135deg, #dc3545 0%, #ff6b6b 100%);
+        }
+        .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .card-title i {
+            margin-right: 10px;
+        }
+        .card-text {
+            font-size: 2rem;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-<div class="sidebar">
-    <a th:href="@{/dashboard}" th:class="${#httpServletRequest.requestURI == '/dashboard' ? 'active' : ''}">Dashboard</a>
-    <a th:href="@{/orders}" th:class="${#httpServletRequest.requestURI == '/orders' ? 'active' : ''}">Orders</a>
-    <a th:href="@{/products}" th:class="${#httpServletRequest.requestURI == '/products' ? 'active' : ''}">Products</a>
-    <a th:href="@{/add-product}" th:class="${#httpServletRequest.requestURI == '/add-product' ? 'active' : ''}">Add Product</a>
-    <a th:href="@{/users}" th:class="${#httpServletRequest.requestURI == '/users' ? 'active' : ''}">Users</a>
-    <a th:href="@{/reviews}" th:class="${#httpServletRequest.requestURI == '/reviews' ? 'active' : ''}">Reviews</a>
-</div>
+<div class="container">
+    <h2 th:text="'Welcome to ' + ${pageName}"></h2>
 
-<div class="content">
-    <!-- Main content area -->
-    <div class="container mt-4">
-        <!-- Content for each page goes here -->
-        <h2>Welcome to Dashboard</h2>
-        <!-- Dashboard content goes here -->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card dashboard-card admin">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-users"></i> Admins</h5>
+                    <p class="card-text" th:text="${adminCount}"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card dashboard-card customer">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-user-friends"></i> Customers</h5>
+                    <p class="card-text" th:text="${customerCount}"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card dashboard-card product">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-box"></i> Products</h5>
+                    <p class="card-text" th:text="${productCount}"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card dashboard-card order">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-shopping-cart"></i> Orders</h5>
+                    <p class="card-text" th:text="${orderCount}"></p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
+        integrity="sha384-pzjw8f+ua7Kw1TIqXTHbrmC3mAYi61JGV4eTPO1uBOnktSgDz3O0+/W9p2FOGpGf"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgPsWxlhQhgdbFE1cFLpAAPFZH7M+UwKtnHB00LE+KfFsEp4sv"
+        crossorigin="anonymous"></script>
 </body>
 </html>

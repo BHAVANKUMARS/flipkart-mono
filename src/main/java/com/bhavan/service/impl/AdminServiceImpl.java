@@ -3,6 +3,7 @@ package com.bhavan.service.impl;
 import com.bhavan.dto.admin.request.AdminRequest;
 import com.bhavan.model.AdminDetails;
 import com.bhavan.service.admin.AdminService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.bhavan.repository.admin.AdminDetailsRepo;
@@ -10,29 +11,71 @@ import com.bhavan.repository.admin.AdminDetailsRepo;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private AdminDetailsRepo adminDetailsRepo;
 
     @Override
-    public boolean login(AdminRequest loginRequest) {
+    public String login(AdminRequest loginRequest) {
+
+        String message = "Invalid User";
 
         Optional<AdminDetails> adminDetails = adminDetailsRepo.findByUserNameAndPassword(loginRequest.getUserName(),loginRequest.getPassword());
 
-        return adminDetails.isPresent();
+         if(adminDetails.isPresent())
+             message = "Valid User";
+
+
+         log.info("Response "+ message);
+
+         return message;
+
     }
 
     @Override
-    public boolean register(AdminRequest loginRequest) {
+    public String register(AdminRequest loginRequest) {
 
-        AdminDetails adminDetails = AdminDetails.builder()
-                                            .userName(loginRequest.getUserName())
-                                            .password(loginRequest.getPassword()).build();
+        String message = "Not Registered";
 
-        adminDetails = adminDetailsRepo.save(adminDetails);
+        boolean isUpdated = false;
 
-        return adminDetails.getAdminId()!=null;
+        Optional<AdminDetails> adminDetails = adminDetailsRepo.findByUserNameAndPassword(loginRequest.getUserName(),loginRequest.getPassword());
+
+        if(adminDetails.isPresent()) {
+
+            message = "Already Exist";
+
+        }else {
+
+
+            AdminDetails newAdmin = AdminDetails.builder()
+                    .userName(loginRequest.getUserName())
+                    .password(loginRequest.getPassword()).build();
+
+            try {
+
+                adminDetailsRepo.save(newAdmin);
+
+                isUpdated = true;
+
+            } catch (Exception e) {
+
+                log.error(e.getMessage());
+
+                isUpdated = false;
+
+            }
+
+            if (isUpdated)
+                message = "Registered Successfully";
+            }
+
+
+        log.info("Response "+ message);
+
+        return message;
 
     }
 
