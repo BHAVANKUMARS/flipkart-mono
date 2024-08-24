@@ -1,13 +1,14 @@
-package com.bhavan.dto.admin.request;
+package com.bhavan.dto.common;
 
 import lombok.*;
+
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class AdminRequest {
+public class AmakartRequest {
 
     private String userName;
 
@@ -16,5 +17,16 @@ public class AdminRequest {
     private String newPassword;
 
     private String confirmPassword;
+
+    /* Product Details */
+
+    private Long productId;
+
+    private String productName;
+
+    private String status;
+
+    private Double productAmount;
+
 
 }

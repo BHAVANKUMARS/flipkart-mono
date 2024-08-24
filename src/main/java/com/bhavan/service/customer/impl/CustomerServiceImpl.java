@@ -1,47 +1,48 @@
-package com.bhavan.service.impl;
+package com.bhavan.service.customer.impl;
 
-import com.bhavan.dto.admin.request.AdminRequest;
+import com.bhavan.dto.common.AmakartRequest;
 import com.bhavan.model.AdminDetails;
-import com.bhavan.service.admin.AdminService;
+import com.bhavan.model.UserDetails;
+import com.bhavan.repository.admin.AdminDetailsRepo;
+import com.bhavan.repository.customer.CustomerDetailsRepo;
+import com.bhavan.service.customer.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.bhavan.repository.admin.AdminDetailsRepo;
 
 import java.util.Optional;
 
 @Service
 @Slf4j
-public class AdminServiceImpl implements AdminService {
-
+public class CustomerServiceImpl implements CustomerService {
     @Autowired
-    private AdminDetailsRepo adminDetailsRepo;
+    private CustomerDetailsRepo customerDetailsRepo;
 
     @Override
-    public String login(AdminRequest loginRequest) {
+    public String login(AmakartRequest loginRequest) {
 
         String message = "Invalid User";
 
-        Optional<AdminDetails> adminDetails = adminDetailsRepo.findByUserNameAndPassword(loginRequest.getUserName(),loginRequest.getPassword());
+        Optional<UserDetails> adminDetails = customerDetailsRepo.findByUserNameAndPassword(loginRequest.getUserName(),loginRequest.getPassword());
 
-         if(adminDetails.isPresent())
-             message = "Valid User";
+        if(adminDetails.isPresent())
+            message = "Valid User";
 
 
-         log.info("Response "+ message);
+        log.info("Response "+ message);
 
-         return message;
+        return message;
 
     }
 
     @Override
-    public String register(AdminRequest loginRequest) {
+    public String register(AmakartRequest loginRequest) {
 
         String message = "Not Registered";
 
         boolean isUpdated = false;
 
-        Optional<AdminDetails> adminDetails = adminDetailsRepo.findByUserNameAndPassword(loginRequest.getUserName(),loginRequest.getPassword());
+        Optional<UserDetails> adminDetails = customerDetailsRepo.findByUserNameAndPassword(loginRequest.getUserName(),loginRequest.getPassword());
 
         if(adminDetails.isPresent()) {
 
@@ -50,13 +51,13 @@ public class AdminServiceImpl implements AdminService {
         }else {
 
 
-            AdminDetails newAdmin = AdminDetails.builder()
+            UserDetails newAdmin = UserDetails.builder()
                     .userName(loginRequest.getUserName())
                     .password(loginRequest.getPassword()).build();
 
             try {
 
-                adminDetailsRepo.save(newAdmin);
+                customerDetailsRepo.save(newAdmin);
 
                 isUpdated = true;
 
@@ -70,7 +71,7 @@ public class AdminServiceImpl implements AdminService {
 
             if (isUpdated)
                 message = "Registered Successfully";
-            }
+        }
 
 
         log.info("Response "+ message);
@@ -80,15 +81,15 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public String resetPassword(AdminRequest loginRequest) {
+    public String resetPassword(AmakartRequest loginRequest) {
 
         if(loginRequest.getNewPassword().equals(loginRequest.getConfirmPassword())){
 
-            Optional<AdminDetails> adminDetails = adminDetailsRepo.findByUserName(loginRequest.getUserName());
+            Optional<UserDetails> adminDetails = customerDetailsRepo.findByUserName(loginRequest.getUserName());
 
             if(adminDetails.isPresent()){
 
-                int count = adminDetailsRepo.updatePassword(loginRequest.getUserName(), loginRequest.getConfirmPassword());
+                int count = customerDetailsRepo.updatePassword(loginRequest.getUserName(), loginRequest.getConfirmPassword());
 
                 if(count > 0)
                     return "Password Updated Successfully";

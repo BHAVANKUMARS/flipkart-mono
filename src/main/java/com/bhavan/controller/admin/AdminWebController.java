@@ -1,17 +1,16 @@
-package com.bhavan.controller;
+package com.bhavan.controller.admin;
 
 
-import com.bhavan.dto.admin.request.AdminRequest;
+import com.bhavan.dto.common.AmakartRequest;
 import com.bhavan.dto.customer.request.LoginRequest;
 import com.bhavan.service.admin.AdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -23,13 +22,13 @@ public class AdminWebController {
     @GetMapping("/login")
     public String showLoginForm(Model model) {
 
-        model.addAttribute("loginDetails",new AdminRequest());
+        model.addAttribute("loginDetails",new AmakartRequest());
 
         return "login";
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute("loginDetails") AdminRequest adminRequest, Model model) {
+    public String login(@ModelAttribute("loginDetails") AmakartRequest adminRequest, Model model) {
 
         // Handle login logic here
         log.info("Login Request "+adminRequest);
@@ -54,13 +53,13 @@ public class AdminWebController {
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
 
-        model.addAttribute("registerDetails",new AdminRequest());
+        model.addAttribute("registerDetails",new AmakartRequest());
 
         return "register";
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute("registerDetails") AdminRequest adminRequest, Model model) {
+    public String register(@ModelAttribute("registerDetails") AmakartRequest adminRequest, Model model) {
         // Handle registration logic here
 
         log.info("Register Request "+adminRequest);
@@ -86,7 +85,7 @@ public class AdminWebController {
 
     // Password Reset Form Submission
     @PostMapping("/reset-password")
-    public String resetPasswordSubmit(@RequestBody AdminRequest adminRequest) {
+    public String resetPasswordSubmit(@RequestBody AmakartRequest adminRequest) {
         // Implement password reset logic here
         adminService.resetPassword(adminRequest);
         return "redirect:/login"; // Redirect to login page after successful password reset
@@ -118,12 +117,52 @@ public class AdminWebController {
     }
 
     @GetMapping("/products")
-    public String products() {
-        return "products";
+    public String getProductsPage(Model model, @RequestParam Map<String, String> params) {
+        // Fetch products based on search criteria from params
+//        List<Product> products = productService.findProducts(params);
+        log.info("params "+params);
+//        model.addAttribute("products", products);
+        model.addAttribute("page", "products");
+
+
+        return "products"; // Thymeleaf template name
+    }
+
+    @GetMapping("/products/search")
+    public String getProductSearchDetail(Model model, @RequestParam Map<String, String> params) {
+        // Fetch products based on search criteria from params
+//        List<Product> products = productService.findProducts(params);
+        log.info("params "+params);
+//        model.addAttribute("products", products);
+        model.addAttribute("page", "products");
+
+
+        return "products"; // Thymeleaf template name
     }
 
     @GetMapping("/users")
-    public String users(){
-        
+    public String users(Model model, @RequestParam Map<String, String> params){
+        log.info("params "+params);
+        model.addAttribute("page", "users");
+        return "users";
     }
+
+//    @RequestMapping("/users")
+//    public ModelAndView viewUsers() {
+//        ModelAndView mav = new ModelAndView("users");
+//        List<User> users = userService.findAllUsers();
+//        mav.addObject("users", users);
+//        return mav;
+//    }
+//
+//    @RequestMapping("/users/search")
+//    public ModelAndView searchUsers(@RequestParam(required = false) String userId,
+//                                    @RequestParam(required = false) String status,
+//                                    @RequestParam(required = false) String username) {
+//        ModelAndView mav = new ModelAndView("users");
+//        List<User> users = userService.searchUsers(userId, status, username);
+//        mav.addObject("users", users);
+//        return mav;
+//    }
+
 }

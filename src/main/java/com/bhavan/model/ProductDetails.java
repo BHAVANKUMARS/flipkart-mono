@@ -27,6 +27,8 @@ public class ProductDetails {
 
     private String status;
 
+    private Double productAmount;
+
     //    @CreationTimestamp
     @Column(name = "created_on")
     private String createdOn;

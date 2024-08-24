@@ -26,6 +26,8 @@ public class UserDetails {
     @Column(name = "user_name")
     private String userName;
 
+    private String password;
+
     private String status;
 
     //    @CreationTimestamp

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Flipkart Style</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background: linear-gradient(135deg, #fbc2eb 0%, #a6c0fe 100%);
+            font-family: 'Arial', sans-serif;
+        }
+        .login-container {
+            max-width: 400px;
+            margin: 0 auto;
+            margin-top: 100px;
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0px 6px 20px rgba(0,0,0,0.15);
+        }
+        .login-heading {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .login-form .form-control {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: inset 0px 1px 3px rgba(0,0,0,0.1);
+        }
+        .login-form .btn-primary {
+            background: linear-gradient(135deg, #f45c43 0%, #f58735 100%);
+            border: none;
+            width: 100%;
+            color: #fff;
+        }
+        .login-form .btn-primary:hover {
+            background: linear-gradient(135deg, #f58735 0%, #f45c43 100%);
+        }
+        .error-message, .success-message {
+            font-weight: bold;
+            text-align: center;
+        }
+        .error-message {
+            color: #dc3545;
+        }
+        .success-message {
+            color: #28a745;
+        }
+        .text-center a {
+            color: #f45c43;
+        }
+        .text-center a:hover {
+            color: #f58735;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="login-container">
+        <h2 class="login-heading">Login</h2>
+        <!-- Error and Success Messages -->
+        <p th:if="${errMsg}" th:text="${errMsg}" class="error-message"></p>
+        <p th:if="${successMsg}" th:text="${successMsg}" class="success-message"></p>
+        <form th:action="@{/customer/login}" method="post" th:object="${loginDetails}" class="login-form">
+            <div class="form-group">
+                <input type="text" id="username" name="username" class="form-control" placeholder="Username" th:field="*{userName}" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password" th:field="*{password}" required>
+            </div>
+            <button type="submit" class="btn btn-primary mb-3">Login</button>
+            <div class="text-center">
+                <p>Don't have an account? <a href="/customer/register">Create one</a></p>
+                <p>Forgot your password? <a href="/customer/forgot">Reset it</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
