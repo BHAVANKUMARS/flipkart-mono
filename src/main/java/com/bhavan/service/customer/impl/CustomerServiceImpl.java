@@ -46,7 +46,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         if(adminDetails.isPresent()) {
 
-            message = "Already Exist";
+            message = "User Already Exist";
 
         }else {
 

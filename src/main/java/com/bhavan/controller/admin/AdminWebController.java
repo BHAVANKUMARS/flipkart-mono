@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @Controller
+@RequestMapping(value="/admin")
 @Slf4j
 public class AdminWebController {
 
@@ -39,7 +40,7 @@ public class AdminWebController {
 
             model.addAttribute("successMsg",message);
 
-            return "redirect:/dashboard";
+            return "redirect:/admin/dashboard";
         }else {
 
             model.addAttribute("errMsg","Invalid Credential");

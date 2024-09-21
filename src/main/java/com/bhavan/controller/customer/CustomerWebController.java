@@ -1,6 +1,7 @@
 package com.bhavan.controller.customer;
 
 import com.bhavan.dto.common.AmakartRequest;
+import com.bhavan.service.categories.CategoriesService;
 import com.bhavan.service.customer.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class CustomerWebController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private CategoriesService categoriesService;
 
     @GetMapping("/login")
     public String showLoginForm(Model model) {
@@ -36,7 +40,7 @@ public class CustomerWebController {
 
             model.addAttribute("successMsg",message);
 
-            return "redirect:/dashboard";
+            return "redirect:/customer/dashboard";
         }else {
 
             model.addAttribute("errMsg","Invalid Credential");
@@ -91,6 +95,8 @@ public class CustomerWebController {
     // Dashboard Page
     @GetMapping("/dashboard")
     public String dashboardPage(Model model) {
+
+        model.addAttribute("categories",categoriesService.findAllCategories());
 //
 //        long adminCount = adminService.getAdminCount();
 //        long customerCount = customerService.getCustomerCount();
@@ -106,7 +112,7 @@ public class CustomerWebController {
         // Set page title
         model.addAttribute("pageName", "Dashboard");
 
-        return "dashboard";    }
+        return "cus-dashboard";    }
 
     @GetMapping("/orders")
     public String orders() {
