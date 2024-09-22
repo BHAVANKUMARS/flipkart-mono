@@ -29,6 +29,11 @@ public class ProductDetails {
 
     private Double productAmount;
 
+    @Column(name = "product_desc", length = 2000) // Example for a larger VARCHAR
+    private String productDesc;
+
+    private String imageUrl;
+
     //    @CreationTimestamp
     @Column(name = "created_on")
     private String createdOn;

@@ -50,9 +50,6 @@
             border-radius: 20px;
             border: 1px solid #ccc;
         }
-        .search-bar button {
-            border-radius: 20px;
-        }
         .category-grid, .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -63,7 +60,13 @@
             border-radius: 10px;
             box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
         }
-        .category-card img, .product-card img {
+        .category-card img {
+            border-radius: 10px 10px 0 0;
+            width: 100%;
+            height: 150px; /* Fixed height */
+            object-fit: cover; /* Ensures image fits nicely */
+        }
+        .product-card img {
             border-radius: 10px 10px 0 0;
             width: 100%;
             height: auto;
@@ -85,12 +88,12 @@
 <body>
 <div class="sidebar">
     <h4>Menu</h4>
-    <a href="/home" class="active">Home</a>
-    <a href="/cart">Shopping Cart</a>
-    <a href="/profile">User Profile</a>
-    <a href="/orders">My Orders</a>
-    <a href="/reviews">Reviews</a>
-    <a href="/logout" class="text-danger">Logout</a>
+    <a th:href="@{/home}" class="active">Home</a>
+    <a th:href="@{/cart}">Shopping Cart</a>
+    <a th:href="@{/profile}">User Profile</a>
+    <a th:href="@{/orders}">My Orders</a>
+    <a th:href="@{/reviews}">Reviews</a>
+    <a th:href="@{/logout}" class="text-danger">Logout</a>
 </div>
 
 <div class="main-content">
@@ -106,10 +109,10 @@
         <h5>Select a Category:</h5>
         <div class="category-grid" id="categoryGrid">
             <div class="category-card" th:each="category : ${categories}">
-                <img th:src="@{${category.categoryUrl}}" alt="${category.categoryName}">
+                <img th:src="${category.categoryUrl}" alt="${category.categoryName}" />
                 <div class="p-3">
                     <h6 th:text="${category.categoryName}">Category Name</h6>
-                    <button class="btn btn-primary" onclick="fetchProducts(${category.id})">View Products</button>
+                    <button class="btn btn-primary" th:onclick="'fetchProducts(' + ${category.id} + ')'">View Products</button>
                 </div>
             </div>
         </div>
@@ -133,17 +136,15 @@
 </div>
 
 <!-- Bootstrap JS and dependencies -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-0oZZ81hW3US8fO8hImuZ5fFZ9+5fwfVccCGP8e5wocpUbG50EqDhuWmLepWn41sC" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-e2z1sKZhwE+N8TPiI3x4cf+ftg0z3yy6S4N1x8Zx+TOV8D0HjNLCtWbF65KgU2o4" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
     function fetchProducts(categoryId) {
-        // Show product search bar
         document.getElementById('productSearchBar').style.display = 'block';
 
-        // Fetch products based on selected category from backend
-        fetch(`/api/products?categoryId=${categoryId}`)
+        fetch(`/customer/products?categoryId=${categoryId}`)
             .then(response => response.json())
             .then(products => {
                 const productGrid = document.getElementById('productGrid');
@@ -152,10 +153,10 @@
                 products.forEach(product => {
                     const card = `
                         <div class="product-card">
-                            <img src="${product.imageUrl}" alt="${product.name}">
+                            <img src="${product.imageUrl}" alt="${product.productName}">
                             <div class="p-3">
-                                <h6>${product.name}</h6>
-                                <p>${product.description}</p>
+                                <h6>${product.productName}</h6>
+                                <p>${product.productDesc}</p>
                                 <button class="btn btn-danger" onclick="addToFavorites(${product.id})">Add to Favorites</button>
                                 <button class="btn btn-success" onclick="buyNow(${product.id})">Buy Now</button>
                             </div>
@@ -173,11 +174,7 @@
 
         categories.forEach(category => {
             const categoryName = category.querySelector('h6').innerText.toLowerCase();
-            if (categoryName.includes(searchInput)) {
-                category.style.display = 'block';
-            } else {
-                category.style.display = 'none';
-            }
+            category.style.display = categoryName.includes(searchInput) ? 'block' : 'none';
         });
     }
 
@@ -187,21 +184,15 @@
 
         products.forEach(product => {
             const productName = product.querySelector('h6').innerText.toLowerCase();
-            if (productName.includes(searchInput)) {
-                product.style.display = 'block';
-            } else {
-                product.style.display = 'none';
-            }
+            product.style.display = productName.includes(searchInput) ? 'block' : 'none';
         });
     }
 
     function addToFavorites(productId) {
-        // Logic to add product to favorites
         console.log(`Added product ${productId} to favorites`);
     }
 
     function buyNow(productId) {
-        // Logic to redirect to purchase page or trigger buying logic
         console.log(`Buying product ${productId}`);
         window.location.href = `/product/${productId}`; // Example redirection
     }
