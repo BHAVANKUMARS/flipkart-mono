@@ -1,6 +1,10 @@
 package com.bhavan.controller.customer;
 
 import com.bhavan.dto.common.AmakartRequest;
+import com.bhavan.model.CategoryProductMap;
+import com.bhavan.model.ProductDetails;
+import com.bhavan.repository.categories.CategoryProductMapRepo;
+import com.bhavan.repository.product.ProductDetailsRepo;
 import com.bhavan.service.categories.CategoriesService;
 import com.bhavan.service.customer.CustomerService;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/customer")
@@ -19,6 +26,14 @@ public class CustomerWebController {
 
     @Autowired
     private CategoriesService categoriesService;
+
+
+    @Autowired
+    private CategoryProductMapRepo categoryProductMapRepo;
+
+
+    @Autowired
+    private ProductDetailsRepo productDetailsRepo;
 
     @GetMapping("/login")
     public String showLoginForm(Model model) {
@@ -117,6 +132,26 @@ public class CustomerWebController {
     @GetMapping("/orders")
     public String orders() {
         return "orders";
+    }
+
+    @GetMapping("/products")
+    public String getProducts(@RequestParam("categoryId") Long categoryId, Model model) {
+        List<ProductDetails> productDetails = new ArrayList<>();
+
+        List<CategoryProductMap> categoryProductMaps = categoryProductMapRepo.findByCategoryId(categoryId);
+
+        categoryProductMaps.stream().filter(c->c.getProductId()!=null)
+                .forEach(
+                        cp->{
+
+                            ProductDetails productDetail = productDetailsRepo.findById(cp.getProductId()).get();
+                            productDetails.add(productDetail);
+                        }
+                );
+
+
+        model.addAttribute("products", productDetails);
+        return "cus-products";
     }
 
 }

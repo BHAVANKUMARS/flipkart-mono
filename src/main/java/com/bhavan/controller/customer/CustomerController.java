@@ -53,7 +53,7 @@ public class CustomerController {
         return categoryProductMapsDbList;
     }
 
-    @GetMapping(value="/products")
+    @GetMapping(value="/get/products")
     public List<ProductDetails> getProductDetails(@RequestParam ("categoryId") Long categoryId){
 
         List<ProductDetails> productDetails = new ArrayList<>();
