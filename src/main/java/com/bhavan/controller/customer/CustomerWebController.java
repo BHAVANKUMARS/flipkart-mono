@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +37,11 @@ public class CustomerWebController {
     @Autowired
     private ProductDetailsRepo productDetailsRepo;
 
+
+
+    @Autowired
+    private HttpSession httpSession;
+
     @GetMapping("/login")
     public String showLoginForm(Model model) {
 
@@ -44,7 +51,7 @@ public class CustomerWebController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute("loginDetails") AmakartRequest customerRequest, Model model) {
+    public String login(@ModelAttribute("loginDetails") AmakartRequest customerRequest, Model model, HttpServletRequest request) {
 
         // Handle login logic here
         log.info("Login Request "+customerRequest);
@@ -54,6 +61,8 @@ public class CustomerWebController {
         if(message.equals("Valid User")) {
 
             model.addAttribute("successMsg",message);
+
+            httpSession.setAttribute("userName",customerRequest.getUserName());
 
             return "redirect:/customer/dashboard";
         }else {
@@ -152,6 +161,18 @@ public class CustomerWebController {
 
         model.addAttribute("products", productDetails);
         return "cus-products";
+    }
+
+    @PostMapping("/shopping/cart/details")
+    @ResponseBody
+    public String saveShoppingCartDetails(@RequestBody  AmakartRequest amakartRequest){
+
+        String username = (String) httpSession.getAttribute("userName");
+
+        amakartRequest.setUserName(username);
+
+        return customerService.addToCart(amakartRequest);
+
     }
 
 }

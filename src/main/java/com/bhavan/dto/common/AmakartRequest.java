@@ -22,6 +22,10 @@ public class AmakartRequest {
 
     private Long productId;
 
+    private Long categoryId;
+
+    private Long userId;
+
     private String productName;
 
     private String status;

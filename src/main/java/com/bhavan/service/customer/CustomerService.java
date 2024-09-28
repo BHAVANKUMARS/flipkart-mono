@@ -10,4 +10,6 @@ public interface CustomerService {
 
     String resetPassword(AmakartRequest loginRequest);
 
+    String addToCart(AmakartRequest shoppingCartRequest);
+
 }

@@ -2,9 +2,11 @@ package com.bhavan.service.customer.impl;
 
 import com.bhavan.dto.common.AmakartRequest;
 import com.bhavan.model.AdminDetails;
+import com.bhavan.model.ShoppingCart;
 import com.bhavan.model.UserDetails;
 import com.bhavan.repository.admin.AdminDetailsRepo;
 import com.bhavan.repository.customer.CustomerDetailsRepo;
+import com.bhavan.repository.customer.ShoppingCartRepo;
 import com.bhavan.service.customer.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ import java.util.Optional;
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerDetailsRepo customerDetailsRepo;
+
+    @Autowired
+    private ShoppingCartRepo shoppingCartRepo;
 
     @Override
     public String login(AmakartRequest loginRequest) {
@@ -105,5 +110,20 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
 
+    }
+
+    @Override
+    public String addToCart(AmakartRequest shoppingCartRequest) {
+
+        Optional<UserDetails> userDetails = customerDetailsRepo.findByUserName(shoppingCartRequest.getUserName());
+
+        ShoppingCart shoppingCart = ShoppingCart.builder().status("A")
+                .categoryId(shoppingCartRequest.getCategoryId())
+                .productId(shoppingCartRequest.getProductId())
+                .userId(userDetails.get().getUserId()).build();
+
+        shoppingCartRepo.save(shoppingCart);
+
+        return "Shopping Card Added";
     }
 }
