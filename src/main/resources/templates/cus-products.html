@@ -66,12 +66,12 @@
 <!-- Sidebar -->
 <div class="sidebar">
     <h4>Menu</h4>
-    <a th:href="@{/home}" th:class="${currentPage == 'home'} ? 'active' : ''">Home</a>
+    <a th:href="@{/customer/dashboard}" th:class="${currentPage == 'home'} ? 'active' : ''">Home</a>
     <a th:href="@{/cart}" th:class="${currentPage == 'cart'} ? 'active' : ''">Shopping Cart</a>
-    <a th:href="@{/profile}" th:class="${currentPage == 'profile'} ? 'active' : ''">User Profile</a>
+    <a th:href="@{/customer/user/profile}" th:class="${currentPage == 'profile'} ? 'active' : ''">User Profile</a>
     <a th:href="@{/orders}" th:class="${currentPage == 'orders'} ? 'active' : ''">My Orders</a>
     <a th:href="@{/reviews}" th:class="${currentPage == 'reviews'} ? 'active' : ''">Reviews</a>
-    <a th:href="@{/logout}" class="text-danger" th:class="${currentPage == 'logout'} ? 'active' : ''">Logout</a>
+    <a th:href="@{/customer/logout}" class="text-danger" th:class="${currentPage == 'logout'} ? 'active' : ''">Logout</a>
 </div>
 
 <!-- Content Area -->

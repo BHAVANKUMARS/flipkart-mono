@@ -51,17 +51,18 @@ public class CustomerWebController {
     }
 
     @GetMapping("/logout")
-    public String logout(Model model,HttpServletRequest servletRequest){
+    public String logout(Model model, HttpServletRequest servletRequest) {
+        httpSession = servletRequest.getSession(false); // get the session, but don't create a new one if it doesn't exist
 
-        httpSession = servletRequest.getSession();
+        if (httpSession != null) {
+            httpSession.invalidate(); // Invalidate the session if it exists
+        }
 
-        httpSession.invalidate();
+        model.addAttribute("loginDetails", new AmakartRequest()); // Add new login details model attribute
 
-        model.addAttribute("loginDetails",new AmakartRequest());
-
-        return "redirect:/customer/login";
-
+        return "redirect:/customer/login"; // Redirect to login page
     }
+
 
     @PostMapping("/login")
     public String login(@ModelAttribute("loginDetails") AmakartRequest customerRequest, Model model, HttpServletRequest request) {
@@ -74,6 +75,10 @@ public class CustomerWebController {
         if(message.equals("Valid User")) {
 
             model.addAttribute("successMsg",message);
+
+            // Create a new session or get the existing one
+            httpSession = request.getSession(true); // true will create a new session if it doesn't exist
+
 
             httpSession.setAttribute("userName",customerRequest.getUserName());
 
