@@ -1,5 +1,6 @@
 package com.bhavan.controller.customer;
 
+import com.bhavan.dto.common.AmakartResponse;
 import com.bhavan.model.Categories;
 import com.bhavan.model.CategoryProductMap;
 import com.bhavan.model.ProductDetails;
@@ -7,9 +8,12 @@ import com.bhavan.repository.categories.CategoriesRepo;
 import com.bhavan.repository.categories.CategoryProductMapRepo;
 import com.bhavan.repository.customer.CustomerDetailsRepo;
 import com.bhavan.repository.product.ProductDetailsRepo;
+import com.bhavan.service.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +30,9 @@ public class CustomerController {
 
     @Autowired
     private CategoryProductMapRepo categoryProductMapRepo;
+
+    @Autowired
+    private CustomerService customerService;
 
     @PostMapping("/categories")
     public List<Categories> saveAllCategories(@RequestBody List<Categories> categoriesList){
@@ -70,6 +77,18 @@ public class CustomerController {
                 );
 
         return productDetails;
+
+    }
+
+    @GetMapping("/user/details")
+    public AmakartResponse getUserDetails(HttpServletRequest servletRequest){
+
+        HttpSession session = servletRequest.getSession();
+
+        String username = (String) session.getAttribute("userName");
+
+        return customerService.getUserDetails(username);
+
 
     }
 

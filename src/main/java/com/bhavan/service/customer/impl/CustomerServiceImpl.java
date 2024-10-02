@@ -1,6 +1,7 @@
 package com.bhavan.service.customer.impl;
 
 import com.bhavan.dto.common.AmakartRequest;
+import com.bhavan.dto.common.AmakartResponse;
 import com.bhavan.model.AdminDetails;
 import com.bhavan.model.ShoppingCart;
 import com.bhavan.model.UserDetails;
@@ -58,7 +59,8 @@ public class CustomerServiceImpl implements CustomerService {
 
             UserDetails newAdmin = UserDetails.builder()
                     .userName(loginRequest.getUserName())
-                    .password(loginRequest.getPassword()).build();
+                    .password(loginRequest.getPassword())
+                    .status("A").build();
 
             try {
 
@@ -125,5 +127,18 @@ public class CustomerServiceImpl implements CustomerService {
         shoppingCartRepo.save(shoppingCart);
 
         return "Shopping Card Added";
+    }
+
+    @Override
+    public AmakartResponse getUserDetails(String userName) {
+
+
+        Optional<UserDetails> userDetails =customerDetailsRepo.findByUserName(userName);
+
+        UserDetails userDetails1 = userDetails.get();
+
+        AmakartResponse amakartResponse = AmakartResponse.builder().status(userDetails1.getStatus()).username(userDetails1.getUserName()).password(userDetails1.getPassword()).build();
+
+        return amakartResponse;
     }
 }

@@ -50,6 +50,19 @@ public class CustomerWebController {
         return "cus-login";
     }
 
+    @GetMapping("/logout")
+    public String logout(Model model,HttpServletRequest servletRequest){
+
+        httpSession = servletRequest.getSession();
+
+        httpSession.invalidate();
+
+        model.addAttribute("loginDetails",new AmakartRequest());
+
+        return "redirect:/customer/login";
+
+    }
+
     @PostMapping("/login")
     public String login(@ModelAttribute("loginDetails") AmakartRequest customerRequest, Model model, HttpServletRequest request) {
 
@@ -121,6 +134,7 @@ public class CustomerWebController {
     public String dashboardPage(Model model) {
 
         model.addAttribute("categories",categoriesService.findAllCategories());
+//        model.addAttribute("userDetails",customerService.getUserDetails());
 //
 //        long adminCount = adminService.getAdminCount();
 //        long customerCount = customerService.getCustomerCount();
@@ -173,6 +187,17 @@ public class CustomerWebController {
 
         return customerService.addToCart(amakartRequest);
 
+    }
+
+    @GetMapping("/user/profile")
+    public String userProfile(Model model,HttpServletRequest servletRequest){
+        HttpSession session = servletRequest.getSession();
+
+        String username = (String) session.getAttribute("userName");
+
+        model.addAttribute("userDetails",customerService.getUserDetails(username));
+
+        return "cus-userprofile";
     }
 
 }

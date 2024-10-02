@@ -2,12 +2,14 @@ package com.bhavan.dto.common;
 
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@SuperBuilder
 public class AmakartResponse {
 
     /* Product Details */
@@ -19,5 +21,9 @@ public class AmakartResponse {
     private String status;
 
     private Double productAmount;
+
+    private String username;
+
+    private String password;
 
 }

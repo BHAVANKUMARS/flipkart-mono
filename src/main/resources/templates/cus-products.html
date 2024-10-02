@@ -192,23 +192,23 @@
 
     function addToCart(button) {
         const productCard = button.closest('.product-card');
-        const categoryId = parseInt(productCard.getAttribute('data-category-id'), 10);
-        const productId = parseInt(productCard.getAttribute('data-product-id'), 10);
+        const categoryId = productCard.getAttribute('data-category-id');
+        const productId = productCard.getAttribute('data-product-id');
 
-        console.log('Category ID:', categoryId);
-        console.log('Product ID:', productId);
-
-        const productName = productCard.querySelector('h5').innerText;
-        const productAmount = parseFloat(productCard.querySelector('.font-weight-bold span').innerText.replace('₹', ''));
-
-        if (isNaN(categoryId) || isNaN(productId)) {
+        if (!categoryId || !productId) {
             alert('Invalid product data. Please refresh the page and try again.');
             return;
         }
 
+        const categoryIdNumber = parseInt(categoryId, 10);
+        const productIdNumber = parseInt(productId, 10);
+
+        const productName = productCard.querySelector('h5').innerText;
+        const productAmount = parseFloat(productCard.querySelector('.font-weight-bold span').innerText.replace('₹', ''));
+
         const requestData = {
-            productId: productId,
-            categoryId: categoryId,
+            productId: productIdNumber,
+            categoryId: categoryIdNumber,
             productName: productName,
             productAmount: productAmount
         };
@@ -237,8 +237,12 @@
         const productCard = button.closest('.product-card');
         productAmount = parseFloat(productCard.querySelector('.font-weight-bold span').innerText.replace('₹', ''));
 
+        const productId = productCard.getAttribute('data-product-id');
+        const productName = productCard.querySelector('h5').innerText;
+
         document.getElementById('checkoutProductDetails').innerHTML = `
-            <p>Product ID: ${productCard.getAttribute('data-product-id')}</p>
+            <p>Product ID: ${productId}</p>
+            <p>Product Name: ${productName}</p>
             <p>Amount: ₹${productAmount.toFixed(2)}</p>`;
 
         document.getElementById('quantity').value = 1;
