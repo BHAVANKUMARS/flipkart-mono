@@ -2,38 +2,27 @@ package com.bhavan.model;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "order_details")
+@Table(name = "payment_details")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
 @ToString
-public class OrderDetails {
+public class PaymentDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id")
-    private Long orderId;
-
-    private Long productId;
-
-    private Long userId;
-
+    @Column(name = "payment_id")
     private Long paymentId;
 
-    private Double productAmount;
+    private Double paidAmount;
 
-    private String deliveryAddress;
-
-    @Column(name = "order_name")
-    private String orderName;
+    private Long userId;
 
     private String status;
 
@@ -46,3 +35,4 @@ public class OrderDetails {
     private String updatedOn;
 
 }
+

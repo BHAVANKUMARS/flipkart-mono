@@ -3,16 +3,20 @@ package com.bhavan.service.customer.impl;
 import com.bhavan.dto.common.AmakartRequest;
 import com.bhavan.dto.common.AmakartResponse;
 import com.bhavan.model.AdminDetails;
+import com.bhavan.model.ProductDetails;
 import com.bhavan.model.ShoppingCart;
 import com.bhavan.model.UserDetails;
 import com.bhavan.repository.admin.AdminDetailsRepo;
 import com.bhavan.repository.customer.CustomerDetailsRepo;
 import com.bhavan.repository.customer.ShoppingCartRepo;
+import com.bhavan.repository.product.ProductDetailsRepo;
 import com.bhavan.service.customer.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,6 +27,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private ShoppingCartRepo shoppingCartRepo;
+
+    @Autowired
+    private ProductDetailsRepo productDetailsRepo;
 
     @Override
     public String login(AmakartRequest loginRequest) {
@@ -117,16 +124,43 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public String addToCart(AmakartRequest shoppingCartRequest) {
 
+
+
         Optional<UserDetails> userDetails = customerDetailsRepo.findByUserName(shoppingCartRequest.getUserName());
 
-        ShoppingCart shoppingCart = ShoppingCart.builder().status("A")
-                .categoryId(shoppingCartRequest.getCategoryId())
-                .productId(shoppingCartRequest.getProductId())
-                .userId(userDetails.get().getUserId()).build();
+        Optional<ShoppingCart> existShoppingCart  = shoppingCartRepo.findByUserIdAndProductId(userDetails.get().getUserId() ,shoppingCartRequest.getProductId());
 
-        shoppingCartRepo.save(shoppingCart);
+        if(!existShoppingCart.isPresent()) {
+            ShoppingCart shoppingCart = ShoppingCart.builder().status("A")
+                    .categoryId(shoppingCartRequest.getCategoryId())
+                    .productId(shoppingCartRequest.getProductId())
+                    .userId(userDetails.get().getUserId()).build();
 
-        return "Shopping Card Added";
+            shoppingCartRepo.save(shoppingCart);
+
+            return "Shopping Card Added";
+        }else
+            return "Already Added in Shopping Card";
+    }
+
+    @Override
+    public List<ProductDetails> getCartDetail(String userName) {
+
+        Optional<UserDetails> userDetails = customerDetailsRepo.findByUserName(userName);
+
+        List<ShoppingCart> shoppingCartList = shoppingCartRepo.findByUserId(userDetails.get().getUserId());
+
+        List<ProductDetails> productDetailsList = new ArrayList<>();
+
+        shoppingCartList.stream().filter(shoppingCart -> shoppingCart.getProductId()!=null)
+                .forEach(shoppingCart -> {
+
+                    ProductDetails productDetails = productDetailsRepo.findById(shoppingCart.getProductId()).get();
+                    productDetailsList.add(productDetails);
+
+                });
+
+        return productDetailsList;
     }
 
     @Override

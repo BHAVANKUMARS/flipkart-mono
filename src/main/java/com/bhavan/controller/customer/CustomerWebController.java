@@ -1,12 +1,15 @@
 package com.bhavan.controller.customer;
 
 import com.bhavan.dto.common.AmakartRequest;
+import com.bhavan.dto.common.AmakartResponse;
 import com.bhavan.model.CategoryProductMap;
 import com.bhavan.model.ProductDetails;
 import com.bhavan.repository.categories.CategoryProductMapRepo;
 import com.bhavan.repository.product.ProductDetailsRepo;
 import com.bhavan.service.categories.CategoriesService;
 import com.bhavan.service.customer.CustomerService;
+import com.bhavan.service.order.OrderService;
+import com.bhavan.service.payment.PaymentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,7 +40,11 @@ public class CustomerWebController {
     @Autowired
     private ProductDetailsRepo productDetailsRepo;
 
+    @Autowired
+    private OrderService orderService;
 
+    @Autowired
+    private PaymentService paymentService;
 
     @Autowired
     private HttpSession httpSession;
@@ -177,9 +184,24 @@ public class CustomerWebController {
                         }
                 );
 
-
+        categoryProductMaps.forEach(System.out::println);
+        productDetails.forEach(System.out::println);
         model.addAttribute("products", productDetails);
         return "cus-products";
+    }
+
+    @GetMapping("/cart")
+    public String getCartDetails(Model model,HttpServletRequest servletRequest){
+
+        String username = (String) httpSession.getAttribute("userName");
+
+        List<ProductDetails> productDetails =customerService.getCartDetail(username);
+
+        productDetails.forEach(System.out::println);
+        model.addAttribute("products", productDetails);
+
+        return "cus-products";
+
     }
 
     @PostMapping("/shopping/cart/details")
@@ -194,6 +216,29 @@ public class CustomerWebController {
 
     }
 
+    @PostMapping("/cashless/details")
+    @ResponseBody
+    public String getOrderDetails(@RequestBody AmakartRequest amakartRequest,HttpServletRequest servletRequest){
+
+        httpSession = servletRequest.getSession();
+        String username = (String) httpSession.getAttribute("userName");
+        amakartRequest.setUserName(username);
+        orderService.saveOrderDetails(amakartRequest);
+        return "Order submitted successfully! Your order will be processed shortly.";
+    }
+
+    @PostMapping("/payment/details")
+    @ResponseBody
+    public String savePaymentDetails(@RequestBody AmakartRequest amakartRequest,HttpServletRequest servletRequest){
+
+        httpSession = servletRequest.getSession();
+        String username = (String) httpSession.getAttribute("userName");
+        amakartRequest.setUserName(username);
+        paymentService.savePaymentDetails(amakartRequest);
+        return "Payment submitted successfully! Your order will be processed shortly.";
+
+    }
+
     @GetMapping("/user/profile")
     public String userProfile(Model model,HttpServletRequest servletRequest){
         HttpSession session = servletRequest.getSession();
@@ -203,6 +248,20 @@ public class CustomerWebController {
         model.addAttribute("userDetails",customerService.getUserDetails(username));
 
         return "cus-userprofile";
+    }
+
+    @GetMapping("/myOrders")
+    public String orderDetails(Model model,HttpServletRequest servletRequest){
+
+        httpSession = servletRequest.getSession();
+        String username = (String) httpSession.getAttribute("userName");
+
+        List<AmakartResponse>  ordersDetails= orderService.getOrderDetails(username);
+
+        model.addAttribute("orders",ordersDetails);
+
+        return "cus-myorder";
+
     }
 
 }

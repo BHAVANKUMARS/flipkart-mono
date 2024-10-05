@@ -32,5 +32,9 @@ public class AmakartRequest {
 
     private Double productAmount;
 
+    private Double paidAmount;
+
+    private String deliveryAddress;
+
 
 }

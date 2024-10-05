@@ -26,4 +26,12 @@ public class AmakartResponse {
 
     private String password;
 
+    private String productImageUrl;
+
+    private Long orderId;
+
+    private String orderStatus;
+
+    private String paymentStatus;
+
 }

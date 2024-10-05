@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:display="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Products - E-Commerce</title>
@@ -67,9 +67,9 @@
 <div class="sidebar">
     <h4>Menu</h4>
     <a th:href="@{/customer/dashboard}" th:class="${currentPage == 'home'} ? 'active' : ''">Home</a>
-    <a th:href="@{/cart}" th:class="${currentPage == 'cart'} ? 'active' : ''">Shopping Cart</a>
+    <a th:href="@{/customer/cart}" th:class="${currentPage == 'cart'} ? 'active' : ''">Shopping Cart</a>
     <a th:href="@{/customer/user/profile}" th:class="${currentPage == 'profile'} ? 'active' : ''">User Profile</a>
-    <a th:href="@{/orders}" th:class="${currentPage == 'orders'} ? 'active' : ''">My Orders</a>
+    <a th:href="@{/customer/myOrders}" th:class="${currentPage == 'orders'} ? 'active' : ''">My Orders</a>
     <a th:href="@{/reviews}" th:class="${currentPage == 'reviews'} ? 'active' : ''">Reviews</a>
     <a th:href="@{/customer/logout}" class="text-danger" th:class="${currentPage == 'logout'} ? 'active' : ''">Logout</a>
 </div>
@@ -95,6 +95,7 @@
             <div class="product-card" th:each="product : ${products}"
                  data-category-id="${product.categoryId}"
                  data-product-id="${product.productId}">
+                <h6 th:text="${product.productId}" style="display: none;">Product Id</h6>
                 <img th:src="${product.imageUrl}" alt="${product.productName}" />
                 <h5 th:text="${product.productName}">Product Name</h5>
                 <p th:text="${product.productDesc}">Product Description</p>
@@ -147,21 +148,20 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="cardNumber">Card Number</label>
-                    <input type="text" class="form-control" id="cardNumber" placeholder="Enter your card number">
+                    <input type="text" class="form-control" id="cardNumber" placeholder="Enter your card number" required>
                 </div>
                 <div class="form-group">
                     <label for="expiryDate">Expiry Date</label>
-                    <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY">
+                    <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" required>
                 </div>
                 <div class="form-group">
                     <label for="cvv">CVV</label>
-                    <input type="text" class="form-control" id="cvv" placeholder="CVV">
+                    <input type="text" class="form-control" id="cvv" placeholder="CVV" required>
                 </div>
                 <div class="form-group">
-                    <label for="otp">OTP</label>
-                    <input type="text" class="form-control" id="otp" placeholder="Enter OTP" disabled>
+                    <label for="amount">Amount</label>
+                    <input type="text" class="form-control" id="amount" placeholder="Enter the amount" required>
                 </div>
-                <button type="button" class="btn btn-primary" onclick="generateOTP()">Generate OTP</button>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -176,9 +176,9 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-    let cart = [];
-    let generatedOTP;
     let productAmount;
+    let productId; // To store product ID for cashless order
+    let productName; // To store product name for cashless order
 
     function filterProducts() {
         const searchInput = document.getElementById('productSearch').value.toLowerCase();
@@ -186,14 +186,18 @@
 
         productCards.forEach(card => {
             const productName = card.querySelector('h5').innerText.toLowerCase();
-            card.style.display = productName.includes(searchInput) ? 'block' : 'none';
+            if (productName.includes(searchInput)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
         });
     }
 
     function addToCart(button) {
         const productCard = button.closest('.product-card');
         const categoryId = productCard.getAttribute('data-category-id');
-        const productId = productCard.getAttribute('data-product-id');
+        const productId = productCard.querySelector('h6').innerText;
 
         if (!categoryId || !productId) {
             alert('Invalid product data. Please refresh the page and try again.');
@@ -203,8 +207,19 @@
         const categoryIdNumber = parseInt(categoryId, 10);
         const productIdNumber = parseInt(productId, 10);
 
+        if ( isNaN(productIdNumber)) {
+            alert('Invalid product data. Please refresh the page and try again.');
+            return;
+        }
+
         const productName = productCard.querySelector('h5').innerText;
-        const productAmount = parseFloat(productCard.querySelector('.font-weight-bold span').innerText.replace('₹', ''));
+        const productAmountText = productCard.querySelector('.font-weight-bold span').innerText;
+        const productAmount = parseFloat(productAmountText.replace('₹', '').replace(',', '').trim());
+
+        if (isNaN(productAmount)) {
+            alert('Invalid product amount. Please refresh the page and try again.');
+            return;
+        }
 
         const requestData = {
             productId: productIdNumber,
@@ -220,25 +235,22 @@
             },
             body: JSON.stringify(requestData),
         })
-        .then(response => {
-            if (response.ok) {
-                alert('Product added to cart!');
-            } else {
-                alert('Failed to add product to cart. Please try again.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred. Please try again.');
-        });
+        .then(response => response.text()) // Get response as text
+    .then(message => {
+        alert(message); // Alert the user with the message returned from the server
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    });
     }
+
 
     function buyNow(button) {
         const productCard = button.closest('.product-card');
+        productId = productCard.querySelector('h6').innerText;
+        productName = productCard.querySelector('h5').innerText;
         productAmount = parseFloat(productCard.querySelector('.font-weight-bold span').innerText.replace('₹', ''));
-
-        const productId = productCard.getAttribute('data-product-id');
-        const productName = productCard.querySelector('h5').innerText;
 
         document.getElementById('checkoutProductDetails').innerHTML = `
             <p>Product ID: ${productId}</p>
@@ -256,18 +268,47 @@
         document.getElementById('totalPrice').querySelector('span').innerText = totalPrice.toFixed(2);
     }
 
-    function proceedCashless() {
+     function proceedCashless() {
         const address = document.getElementById('address').value;
         if (!address) {
             alert('Please enter your delivery address before proceeding with a cashless order.');
             return;
         }
-        alert('Cashless order placed successfully! Your delivery address is: ' + address);
-        $('#checkoutModal').modal('hide');
-        window.location.href = '/customer/dashboard'; // Update with your actual dashboard URL
+
+        const quantity = parseInt(document.getElementById('quantity').value, 10);
+        const totalPrice = productAmount * quantity;
+
+        const amakartRequest = {
+            userName: "", // This will be set on the server-side based on the session
+            productId: productId,
+            productName: productName,
+            productAmount: productAmount,
+            deliveryAddress: address,
+            quantity: quantity
+        };
+
+        fetch('/customer/cashless/details', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(amakartRequest),
+        })
+        .then(response => response.text())
+        .then(message => {
+            alert(message); // Show the message returned from the server
+            $('#checkoutModal').modal('hide');
+            window.location.href = '/customer/dashboard'; // Redirect to dashboard or appropriate page
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while placing your order. Please try again.');
+        });
     }
 
+
     function showPayment() {
+
         const address = document.getElementById('address').value;
         if (!address) {
             alert('Please enter your delivery address before proceeding to payment.');
@@ -277,42 +318,48 @@
         $('#paymentModal').modal('show');
     }
 
-    function generateOTP() {
-        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-        alert('OTP generated: ' + generatedOTP);
-        document.getElementById('otp').disabled = false;
-    }
-
     function submitPayment() {
         const cardNumber = document.getElementById('cardNumber').value;
         const expiryDate = document.getElementById('expiryDate').value;
         const cvv = document.getElementById('cvv').value;
-        const otp = document.getElementById('otp').value;
+        const enteredAmount = parseFloat(document.getElementById('amount').value);
 
-        if (!cardNumber || !expiryDate || !cvv || !otp) {
+        if (!cardNumber || !expiryDate || !cvv) {
             alert('Please fill all payment details.');
             return;
         }
 
-        if (otp !== generatedOTP) {
-            alert('Invalid OTP. Please try again.');
+        if (isNaN(enteredAmount) || enteredAmount !== productAmount) {
+            alert(`Entered amount does not match the product amount (₹${productAmount.toFixed(2)}). Please try again.`);
             return;
         }
 
-        const enteredAmount = prompt("Please enter the amount for payment:");
-        if (enteredAmount == null || enteredAmount.trim() === '') {
-            alert('Payment cancelled.');
-            return;
-        }
+        const amakartRequest = {
+            userName: "", // This will be set on the server-side based on the session
+            productId: productId,
+            productName: productName,
+            paidAmount: enteredAmount, // Include the entered amount
+            deliveryAddress: document.getElementById('address').value,
+            quantity: parseInt(document.getElementById('quantity').value, 10)
+        };
 
-        if (parseFloat(enteredAmount) !== productAmount) {
-            alert('Entered amount does not match the product amount. Please try again.');
-            return;
-        }
-
-        alert('Payment submitted successfully! Your order will be processed shortly.');
-        $('#paymentModal').modal('hide');
-        window.location.href = '/customer/dashboard'; // Update with your actual dashboard URL
+        fetch('/customer/payment/details', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(amakartRequest),
+        })
+        .then(response => response.text())
+        .then(message => {
+            alert(message); // Alert the user with the message returned from the server
+            $('#paymentModal').modal('hide');
+            window.location.href = '/customer/dashboard'; // Redirect to dashboard or appropriate page
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while processing the payment. Please try again.');
+        });
     }
 </script>
 </body>
