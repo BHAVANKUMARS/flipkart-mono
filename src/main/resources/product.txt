@@ -1,0 +1,256 @@
+http://localhost:8080/customer/product
+
+[
+    {
+        "productName": "Apple 16 Pro",
+        "productAmount": 120000.00,
+        "productDesc": "Lighter, more durable titanium frame, larger display sizes, a faster A18 Pro chip, ProMotion display technology, an Always-On display, a 48-megapixel Ultra Wide lens, and 5x Telephoto camera lens.",
+        "imageUrl": "/images/products/apple16pro.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Realme 12 Pro",
+        "productAmount": 22000.00,
+        "productDesc": "In a world dominated by innovation, the realme 12 Pro 5G stands out as a beacon of excellence. It's not just a smartphone; it's a testament to realme's dedication to pushing the boundaries of what's possible. Elevate your mobile experience, capture moments with unprecedented clarity, and indulge in a device that seamlessly blends performance, design, and cutting-edge technology. Choose realme – where every feature is a step toward a future of limitless possibilities.",
+        "imageUrl": "/images/products/realme12pro.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Samsung f41",
+        "productAmount": 15500.00,
+        "productDesc": "Display: 6.4-inch Full HD+ Super AMOLEProcessor: Exynos 9611RAM: Available in 6GB and 8GB variantsStorage: Options for 64GB and 128GB, expandable via microSDCamera:Rear: Triple camera setup (64 MP main, 8 MP ultra-wide, 5 MP depth sensor)Front: 32 MP selfie camerBattery: 6,000 mAh, providing long-lasting performanceOperating System: One UI based on AndroidOther Features: In-display fingerprint sensor, USB Type-C port, 3.5mm headphone jack.",
+        "imageUrl": "/images/products/samsung f41.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Vivo Y28",
+        "productAmount": 25000.00,
+        "productDesc": "Display: 6.7-inch HD+ LCD, offering vibrant visuals and decent viewing angles.Processor: MediaTek Helio P22 or a similar chipset, providing reliable performance for everyday tasks and light gaming.RAM: Typically available in 4GB or 6GB options, allowing for smooth multitasking.Storage: 128GB internal storage, expandable via microSD card for additional space.",
+        "imageUrl": "/images/products/vivo y28.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Redmi note 8",
+        "productAmount": 15000.00,
+        "productDesc": "Display: 6.3-inch Full HD+ IPS LCD, with a resolution of 2340 x 1080 pixels and a 19.5:9 aspect ratio, providing vibrant colors and sharp visuals.Processor: Qualcomm Snapdragon 665, which delivers smooth performance for everyday tasks and moderate gaming.RAM: Available in 3GB, 4GB, and 6GB variants, allowing for efficient multitasking.Storage: Options of 32GB, 64GB, and 128GB internal storage, expandable via microSD card.Camera:Rear: Quad-camera setup (48 MP main sensor, 8 MP ultra-wide, 2 MP macro, and 2 MP depth sensor) for versatile photography.Front: 13 MP selfie camera, capable of capturing clear and vibrant selfies.",
+        "imageUrl": "/images/products/redmi note 8.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Oppo A77",
+        "productAmount": 20000.00,
+        "productDesc": "Display: 6.56-inch HD+ LCD, with a 90Hz refresh rate for smoother scrolling and animations.Processor: MediaTek Dimensity 810, ensuring efficient performance for multitasking and gaming.RAM: Options of 6GB or 8GB, providing good support for running multiple apps smoothlyStorage: 128GB internal storage, expandable via microSD card.Camera:Rear: Dual-camera setup (48 MP main sensor and a 2 MP depth sensor) for decent photography.Front: 8 MP selfie camera, suitable for selfies and video calls.Battery: 5,000 mAh, with support for fast charging to keep you powered throughout the day.Operating System: ColorOS based on Android, offering a user-friendly interface and customization options Other Features: Side-mounted fingerprint sensor, dual SIM support, and 3.5mm headphone jack..",
+        "imageUrl": "/images/products/oppo A77.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Acer",
+        "productAmount": 50000.00,
+        "productDesc": "Acer One Intel Core i3 11th Gen 1115G4 -(8 GB/512 GB SSD/Windows 11 Home) AO 14 Z 8-415 Thin and Light Laptop  (14 Inch, Silver, 1.49 Kg)Stylish & Portable Thin and Light Laptop14 Inch Full HDLight Laptop without Optical Disk Drive",
+        "imageUrl": "/images/products/Acer.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Apple",
+        "productAmount": 125000.00,
+        "productDesc": "Apple MacBook AIR Apple M2 -(8 GB/256 GB SSD/Mac OS Monterey) MLXY3HN/A  (13.6 Inch, Silver, 1.24 Kg)Stylish & Portable Thin and Light Laptop13.6 Inch Liquid Retina Display, LED-backlit display with IPS technology,500 nits brightness, Wide colour (P3), True Tone technologyLight Laptop without Optical Disk Drive",
+        "imageUrl": "/images/products/Apple.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Dell",
+        "productAmount": 42900.00,
+        "productDesc": "DELL Inspiron 3520 Intel Core i5 12th Gen 1235U - (8 GB/512 GB SSD/Windows 11 Home) 0IN352010031RINB1M Thin and Light Laptop  (15.6 Inch, Carbon Black, 1.65 Kg, With MS Office)Stylish & Portable Thin and Light Laptop15.6 Inch Full HD WVA AG 120Hz 250 nits Narrow BorderLight Laptop without Optical Disk Drive.",
+        "imageUrl": "/images/products/Dell.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "HP",
+        "productAmount": 60000.00,
+        "productDesc": "HP Intel Core i5 12th Gen 1235U - (8 GB/1 TB SSD/Windows 11 Home) 15s-fq5331TU Thin and Light Laptop  (15.6 Inch, Natural Silver, 1.69 Kg),Stylish & Portable Thin and Light Laptop15.6 Inch Full HD, micro-edge, anti-glare,250ni45%NTSCLightLaptop without Optical Disk Drive",
+        "imageUrl": "/images/products/HP.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Lenovoo",
+        "productAmount": 45000.00,
+        "productDesc": "Lenovo IdeaPad Slim 3Intel Core i5 12th Gen 12450H - (16 GB/512 GB SSD/Windows 11 Home)14IAH8 Thin and Light Laptop  (14 Inch, Arctic Grey, 1.37 Kg, With MS Office)Stylish & Portable Thin and Light Laptop14 Inch Full HD IPS 300nits Anti-glareLight Laptop without Optical Disk Drive",
+        "imageUrl": "/images/products/Lenova.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "MSI",
+        "productAmount": 80000.00,
+        "productDesc": "MSI Thin 15 Intel Core i5 12th Gen 12450H - (8 GB/512 GB SSD/Windows 11 Home/4 GB Graphics/NVIDIA GeForce RTX 2050/144 Hz) Thin 15 B12UCX-1696IN Gaming Laptop  (15.6 Inch, Cosmos Grey, 1.86 Kg)15.6 Inch Full HD , 144Hz 45%NTSC IPS-LevelLight Laptop without Optical Disk Drive",
+        "imageUrl": "/images/products/Msi.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Saree",
+        "productAmount": 2000.00,
+        "productDesc": "Fabric: 100% Pure Silk Dimensions:Length: 6.5 meters (including blouse piece)Width: 1.2 metersDesign Features:Color: Rich royal blue with intricate gold zari work, giving it a regal look.Pallu: The saree features a beautifully crafted pallu with detailed motifs that add to its charm.Blouse Piece: Comes with a matching silk blouse piece (approximately 1 meter) for a complete look.",
+        "imageUrl": "/images/products/saree.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Kurti",
+        "productAmount": 500.00,
+        "productDesc": "Product Title: Elegant Printed Anarkali Kurti for Women Description:Elevate your ethnic wardrobe with this stunning Anarkali kurti, designed for both comfort and style. Crafted from soft, breathable cotton fabric, this kurti features intricate prints that celebrate traditional artistry. ",
+        "imageUrl": "/images/products/kurti1.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Lehenga",
+        "productAmount": 5000.00,
+        "productDesc": "Product Title: Exquisite Embroidered Lehenga Choli Set for WomenDescriptionMake a stunning entrance at any festive occasion with this exquisite lehenga choli set. Crafted with meticulous attention to detail, this ensemble combines traditional craftsmanship with contemporary style.",
+        "imageUrl": "/images/products/Lehenga.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Crop top",
+        "productAmount": 800.00,
+        "productDesc": "Product Title: Stylish Printed Crop Top for Women Description:Upgrade your casual wardrobe with this trendy printed crop top, designed for a chic and stylish look. Perfect for pairing with high-waisted jeans, skirts, or shorts, this versatile piece is a must-have for every fashion-forward woman",
+        "imageUrl": "/images/products/Modern1.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Plain Shirt",
+        "productAmount": 1200.00,
+        "productDesc": "Product: Casual Denim Shirt Description: Elevate your casual wardrobe with this stylish denim shirt, designed for comfort and versatility. Perfect for everyday wear, this shirt effortlessly combines style with functionality, making it a must-have for any modern man.",
+        "imageUrl": "/images/products/Plain Shirt1.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Formal Shirt",
+        "productAmount": 900.00,
+        "productDesc": "Product: Classic Checkered Cotton ShirtDescription: Upgrade your wardrobe with this classic checkered cotton shirt, designed for comfort and style. Perfect for casual outings, office wear, or weekend gatherings, this shirt offers a timeless look that never goes out of fashion.",
+        "imageUrl": "/images/products/Formal shirt.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Frock",
+        "productAmount": 400.00,
+        "productDesc": "Product: Floral Print Cotton Frock for KidsDescription: Make your little one’s wardrobe bloom with this adorable floral print frock. Crafted for comfort and style, this frock is perfect for playdates, family gatherings, or special occasions. With its vibrant colors and playful design, your child will love wearing it",
+        "imageUrl": "/images/products/kid3.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Shirt Pant",
+        "productAmount": 1300.00,
+        "productDesc": "Product: Stylish Shirt and Pant Set for BoysDescription: Dress your little gentleman in this trendy shirt and pant set, perfect for any occasion—from family gatherings to birthday parties. This stylish outfit combines comfort with a modern look, making it a must-have for your child’s wardrobe.",
+        "imageUrl": "/images/products/kid1.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Woolean Coat",
+        "productAmount": 1800.00,
+        "productDesc": "Product Title: Cozy Woolen Coat for Kids Description:Keep your little ones warm and stylish this winter with our cozy woolen coat! Crafted with premium wool, this coat is designed to provide comfort and protection against the chill while adding a fashionable touch to their winter wardrobe.",
+        "imageUrl": "/images/products/coat.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Butter",
+        "productAmount": 300.00,
+        "productDesc": "Product Name: Premium Dairy Butter Description:Indulge in the rich, creamy goodness of our Premium Dairy Butter, crafted from the finest quality milk. Perfect for cooking, baking, or spreading, this butter adds a delightful flavor and texture to your culinary creations.",
+        "imageUrl": "/images/products/Butter.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Maggie",
+        "productAmount": 120.00,
+        "productDesc": "Product Name: Maggi Instant Noodles Description:Savor the taste of convenience with Maggi Instant Noodles, your go-to solution for a quick and delicious meal. Perfectly seasoned and easy to prepare, Maggi noodles are loved by people of all ages. Whether you’re at home, in the office, or on the go, enjoy a satisfying bowl of noodles in just minutes!",
+        "imageUrl": "/images/products/maggie.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Instant Noodles",
+        "productAmount": 200.00,
+        "productDesc": "Product Name: Instant Noodles Description:Enjoy a quick and delicious meal with our Instant Noodles, perfect for busy lifestyles and late-night cravings! Ready in just minutes, these noodles are a tasty solution for anyone looking for convenience without compromising on flavor.",
+        "imageUrl": "/images/products/noddle.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Sunscreen",
+        "productAmount": 1200.00,
+        "productDesc": "Product Name: Naive Sunscreen Lotion Description:Protect your skin from harmful UV rays with Naive  Sunscreen Lotion, your ultimate shield against sun damage! Formulated for all skin types, this lightweight and non-greasy sunscreen offers broad-spectrum protection while keeping your skin hydrated and nourished.",
+        "imageUrl": "/images/products/sunscreen.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Cart with Bed",
+        "productAmount": 125000.00,
+        "productDesc": "Product Name: Brand Name Multi-Functional Cart with Bed Description:Transform your living space with the Brand Name Multi-Functional Cart with Bed, the ultimate solution for modern, compact living! This versatile piece of furniture combines a stylish cart and a comfortable bed, making it perfect for small apartments, guest rooms, or any space where you need flexibility Dimensions:Cart Size: 36” L x 24” W x 30” HBed Size: 75” L x 36” W (standard twin size)",
+        "imageUrl": "/images/products/Bed2.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "CupBoard",
+        "productAmount": 12000.00,
+        "productDesc": "Product Name: Brand Name Modern Wooden Cupboard Description:Organize your space with the Brand Name Modern Wooden Cupboard, a perfect blend of style and functionality! This spacious cupboard is designed to meet all your storage needs while adding a touch of elegance to your home decor. Ideal for bedrooms, living rooms, or home offices, it provides ample space to keep your belongings neat and accessible.Dimensions:Overall Size: 60” H x 36” W x 18” DShelf Dimensions: 34” W x 15” D (four adjustable shelves)Hanging Rod Length: 34” for hanging clothes",
+        "imageUrl": "/images/products/cupboard1.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Dinning",
+        "productAmount": 27000.00,
+        "productDesc": "Product: Dining Table Set Description: Elevate your dining experience with this exquisite dining table set, perfect for family gatherings or entertaining guests. The set includes a sturdy rectangular dining table and six elegantly designed chairs, crafted from high-quality solid wood for durability and style. Table Dimensions:Length: 72 inchesWidth: 36 inchesHeight: 30 inchesChair Dimensions:Seat Height: 18 inchesSeat Depth: 16 inchesBack Height: 36 inches",
+        "imageUrl": "/images/products/Dinning1.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Sofa",
+        "productAmount": 25000.00,
+        "productDesc": "Product: 3-Seater Fabric Sofa Description: Transform your living space with this stylish and comfortable 3-seater fabric sofa, designed to provide both elegance and functionality. Perfect for family gatherings or relaxing evenings, this sofa combines modern aesthetics with exceptional comfort.Sofa Dimensions:Length: 78 inchesDepth: 32 inchesHeight: 34 inchesSeat Height: 18 inchesArmrest Height: 25 inches",
+        "imageUrl": "/images/products/sofa1.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Working Table",
+        "productAmount": 18000.00,
+        "productDesc": "Product: Modern Wooden Working TableDescription: Boost your productivity with this stylish modern wooden working table, designed for both functionality and aesthetics. Ideal for home offices or study areas, this table offers ample workspace and a sleek design. Table Dimensions:Length: 60 inchesWidth: 30 inchesHeight: 30 inches",
+        "imageUrl": "/images/products/Table.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Badminton",
+        "productAmount": 600.00,
+        "productDesc": "Sport Type: BadmintonIdeal For: Boys, Junior, Men, Senior, WomenColor: MulticolorWidth: 10 cm, Height: 20 cm, Depth: 12 cmFor multicolor products, please check the image for colour details before purchasing..",
+        "imageUrl": "/images/products/Badminton2.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Baseket ball",
+        "productAmount": 1200.00,
+        "productDesc": "Sport Type:Basketball Water ResistantOuter Material: RUBBERCore Material: RUBBERWeight: 90 gSuitable for: YES",
+        "imageUrl": "/images/products/BaSetketball.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Cricket Bat",
+        "productAmount": 1500.00,
+        "productDesc": "cricket Age Group 11 - 13 YrsBlade Made of Poplar WillowTraining Playing LevelBat Grade: Grade 2Sport Type: Cricket Weight Range 1-1.1 kg",
+        "imageUrl": "/images/products/Cricket.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "FootBall",
+        "productAmount": 1800.00,
+        "productDesc": "Sport Type:Football Water ResistantOuter Material: PVCWeight: 400-450 gSuitable for: Hard, Wet, Grass",
+        "imageUrl": "/images/products/Football.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Hockey stick",
+        "productAmount": 800.00,
+        "productDesc": "Sport Type:Hockey StickWoodMade of WOODLength: 91.44 cmWeight: 500 g",
+        "imageUrl": "/images/products/Hockey.jpg",
+        "status": "A"
+    },
+    {
+        "productName": "Volley Ball",
+        "productAmount": 800.00,
+        "productDesc": "VolleyballWater ResistantOuter Material: PU PastedWeight: 350-390 gSuitable for: Grassy, Hard",
+        "imageUrl": "/images/products/Volleyball.jpg",
+        "status": "A"
+    }
+]

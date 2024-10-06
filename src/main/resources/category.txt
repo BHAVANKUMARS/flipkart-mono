@@ -1,0 +1,29 @@
+http://localhost:8080/customer/categories
+
+[
+    {
+        "categoryName": "Mobile",
+        "categoryUrl": "/images/mobile.jpg"
+    },
+    {
+        "categoryName": "Laptop",
+        "categoryUrl": "/images/laptop.jpg"
+    },
+    {
+        "categoryName": "Fashion",
+        "categoryUrl": "/images/fashion.jpg"
+    },
+    {
+        "categoryName": "Grocery",
+        "categoryUrl": "/images/grocery.jpg"
+    },
+    {
+        "categoryName": "Furniture",
+        "categoryUrl": "/images/furniture.jpg"
+    },
+    {
+        "categoryName": "Sports Hub",
+        "categoryUrl": "/images/sportshub.jpg"
+    }
+
+]

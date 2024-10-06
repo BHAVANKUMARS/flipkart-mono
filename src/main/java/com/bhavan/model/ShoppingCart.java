@@ -2,8 +2,11 @@ package com.bhavan.model;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "shopping_cart")
@@ -27,12 +30,11 @@ public class ShoppingCart {
 
     private String status;
 
-    //    @CreationTimestamp
-    @Column(name = "created_on")
-    private String createdOn;
+    @CreationTimestamp
+    @Column(name = "created_on", updatable = false)
+    private LocalDate createdOn;
 
-    //    @UpdateTimestamp
+    @UpdateTimestamp
     @Column(name = "updated_on")
-    private String updatedOn;
-
+    private LocalDate updatedOn;
 }
