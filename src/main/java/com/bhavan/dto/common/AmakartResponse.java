@@ -4,6 +4,8 @@ package com.bhavan.dto.common;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -33,5 +35,7 @@ public class AmakartResponse {
     private String orderStatus;
 
     private String paymentStatus;
+
+    private LocalDate orderDate;
 
 }

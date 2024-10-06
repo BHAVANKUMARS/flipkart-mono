@@ -1,5 +1,6 @@
 package com.bhavan.service.order.Impl;
 
+import com.bhavan.OrderSpecification;
 import com.bhavan.dto.common.AmakartRequest;
 import com.bhavan.dto.common.AmakartResponse;
 import com.bhavan.model.OrderDetails;
@@ -11,10 +12,12 @@ import com.bhavan.repository.payment.PaymentRepository;
 import com.bhavan.repository.product.ProductDetailsRepo;
 import com.bhavan.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -95,4 +98,22 @@ public class OrderServiceImpl implements OrderService {
         }
         return amakartResponsesList;
     }
+
+    @Override
+    public List<OrderDetails> getOrderTotalCount() {
+        return orderRepository.findAll();
+    }
+
+    @Override
+    public List<OrderDetails> getAllOrderDetails() {
+        return orderRepository.findAll();
+    }
+
+    @Override
+    public List<OrderDetails> searchCriteria(Map<String, String> params) {
+        Specification<OrderDetails> spec = OrderSpecification.searchByCriteria(params);
+        return orderRepository.findAll(spec);
+    }
+
+
 }

@@ -52,7 +52,9 @@ public class AdminServiceImpl implements AdminService {
 
             AdminDetails newAdmin = AdminDetails.builder()
                     .userName(loginRequest.getUserName())
-                    .password(loginRequest.getPassword()).build();
+                    .password(loginRequest.getPassword())
+                    .status("A")
+                    .build();
 
             try {
 
@@ -104,5 +106,10 @@ public class AdminServiceImpl implements AdminService {
         }
 
 
+    }
+
+    @Override
+    public Long getTotalAdminCount() {
+        return adminDetailsRepo.countByStatus("A");
     }
 }

@@ -61,11 +61,12 @@
 <body>
 <!-- Sidebar -->
 <div class="sidebar">
-    <a href="/dashboard" th:classappend="${page == 'dashboard'} ? 'active' : ''">Dashboard</a>
-    <a href="/orders" th:classappend="${page == 'orders'} ? 'active' : ''">Orders</a>
-    <a href="/products" th:classappend="${page == 'products'} ? 'active' : ''">Products</a>
-    <a href="/users" th:classappend="${page == 'users'} ? 'active' : ''">Users</a>
+    <a href="/admin/dashboard" th:classappend="${page == 'dashboard'} ? 'active' : ''">Dashboard</a>
+    <a href="/admin/orders" th:classappend="${page == 'orders'} ? 'active' : ''">Orders</a>
+    <a href="/admin/products" th:classappend="${page == 'products'} ? 'active' : ''">Products</a>
+    <a href="/admin/users" th:classappend="${page == 'users'} ? 'active' : ''">Users</a>
     <a href="/reviews" th:classappend="${page == 'reviews'} ? 'active' : ''">Reviews</a>
+    <a href="/admin/logout" th:classappend="${page == 'logout'} ? 'active' : ''">Logout</a>
 </div>
 
 <!-- Content -->
@@ -73,7 +74,7 @@
     <h2>Users Page</h2>
 
     <!-- Search Form -->
-    <form class="search-form mb-4" th:action="@{/users/search}" method="get">
+    <form class="search-form mb-4" th:action="@{/admin/users/search}" method="get">
         <div class="form-row">
             <div class="form-group col-md-3">
                 <label for="userId">User ID</label>
@@ -83,13 +84,13 @@
                 <label for="status">Status</label>
                 <select id="status" name="status" class="form-control">
                     <option value="">Select Status</option>
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
+                    <option value="A">Active</option>
+                    <option value="I">Inactive</option>
                 </select>
             </div>
             <div class="form-group col-md-3">
                 <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                <input type="text" class="form-control" id="username" name="userName" placeholder="Username">
             </div>
             <div class="form-group col-md-3 d-flex align-items-end">
                 <button type="submit" class="btn btn-primary">Search</button>
@@ -109,8 +110,8 @@
         </thead>
         <tbody>
         <tr th:each="user : ${users}">
-            <td th:text="${user.id}"></td>
-            <td th:text="${user.username}"></td>
+            <td th:text="${user.userId}"></td>
+            <td th:text="${user.userName}"></td>
             <td th:text="${user.createdOn}"></td>
             <td th:text="${user.status}"></td>
         </tr>

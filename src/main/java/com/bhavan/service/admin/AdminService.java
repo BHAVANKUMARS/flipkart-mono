@@ -10,5 +10,7 @@ public interface AdminService {
 
     String resetPassword(AmakartRequest loginRequest);
 
+    Long getTotalAdminCount();
+
 
 }

@@ -6,6 +6,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "order_details")
@@ -37,12 +39,12 @@ public class OrderDetails {
 
     private String status;
 
-    //    @CreationTimestamp
-    @Column(name = "created_on")
-    private String createdOn;
+    @CreationTimestamp
+    @Column(name = "created_on", updatable = false)
+    private LocalDate createdOn;
 
-    //    @UpdateTimestamp
+    @UpdateTimestamp
     @Column(name = "updated_on")
-    private String updatedOn;
+    private LocalDate updatedOn;
 
 }

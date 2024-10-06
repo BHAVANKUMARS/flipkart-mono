@@ -2,6 +2,10 @@ package com.bhavan.service.product;
 
 import com.bhavan.dto.common.AmakartRequest;
 import com.bhavan.dto.common.AmakartResponse;
+import com.bhavan.model.ProductDetails;
+
+import java.util.List;
+import java.util.Map;
 
 public interface ProductService {
 
@@ -9,6 +13,12 @@ public interface ProductService {
 
     void viewProduct(Long productId);
 
-    AmakartResponse findAllActiveProducts();
+    List<ProductDetails> findAllActiveProducts();
+
+    Long getProductTotalCount();
+
+    List<ProductDetails> searchCriteria(Map<String,String> params);
+
+
 
 }

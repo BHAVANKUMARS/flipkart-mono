@@ -14,6 +14,8 @@ public interface AdminDetailsRepo extends JpaRepository<AdminDetails,Long> {
 
     Optional<AdminDetails> findByUserName(String userName);
 
+    Long countByStatus(String status);
+
     @Query(value = "UPDATE admin_details SET password =:password WHERE user_name = :userName",nativeQuery = true)
     int updatePassword(@Param("userName")String userName, @Param("password") String password);
 

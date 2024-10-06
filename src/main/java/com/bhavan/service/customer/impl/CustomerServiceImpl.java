@@ -1,5 +1,7 @@
 package com.bhavan.service.customer.impl;
 
+import com.bhavan.CustomerSpecification;
+import com.bhavan.ProductSpecification;
 import com.bhavan.dto.common.AmakartRequest;
 import com.bhavan.dto.common.AmakartResponse;
 import com.bhavan.model.AdminDetails;
@@ -13,10 +15,12 @@ import com.bhavan.repository.product.ProductDetailsRepo;
 import com.bhavan.service.customer.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -174,5 +178,21 @@ public class CustomerServiceImpl implements CustomerService {
         AmakartResponse amakartResponse = AmakartResponse.builder().status(userDetails1.getStatus()).username(userDetails1.getUserName()).password(userDetails1.getPassword()).build();
 
         return amakartResponse;
+    }
+
+    @Override
+    public Long getCustomerTotalCount() {
+        return customerDetailsRepo.countByStatus("A");
+    }
+
+    @Override
+    public List<UserDetails> getActiveUsers() {
+        return customerDetailsRepo.findByStatus("A");
+    }
+
+    @Override
+    public List<UserDetails> searchCriteria(Map<String, String> params) {
+        Specification<UserDetails> spec = CustomerSpecification.searchByCriteria(params);
+        return customerDetailsRepo.findAll(spec);
     }
 }
