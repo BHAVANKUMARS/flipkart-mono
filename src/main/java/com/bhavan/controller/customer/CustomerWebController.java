@@ -198,9 +198,9 @@ public class CustomerWebController {
         List<ProductDetails> productDetails =customerService.getCartDetail(username);
 
         productDetails.forEach(System.out::println);
-        model.addAttribute("products", productDetails);
+        model.addAttribute("cartProducts", productDetails);
 
-        return "cus-products";
+        return "cus-cart";
 
     }
 
