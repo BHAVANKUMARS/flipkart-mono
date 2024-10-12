@@ -41,7 +41,7 @@ public class AdminServiceImpl implements AdminService {
 
         boolean isUpdated = false;
 
-        Optional<AdminDetails> adminDetails = adminDetailsRepo.findByUserNameAndPassword(loginRequest.getUserName(),loginRequest.getPassword());
+        Optional<AdminDetails> adminDetails = adminDetailsRepo.findByUserName(loginRequest.getUserName());
 
         if(adminDetails.isPresent()) {
 

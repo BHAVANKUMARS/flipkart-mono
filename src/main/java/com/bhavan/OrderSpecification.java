@@ -23,14 +23,12 @@ public class OrderSpecification {
                 predicates.add(criteriaBuilder.equal(root.get("status"), params.get("status")));
             }
 
-            if (params.containsKey("fromDate") && !params.get("fromDate").isEmpty()) {
-                LocalDate fromDate = LocalDate.parse(params.get("fromDate"));
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("createdOn"), fromDate.atStartOfDay()));
+            if (params.containsKey("fromAmount")&& params.get("fromAmount")!=null && !params.get("fromAmount").isEmpty()) {
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("productAmount"), Double.valueOf(params.get("fromAmount"))));
             }
 
-            if (params.containsKey("toDate") && !params.get("toDate").isEmpty()) {
-                LocalDate toDate = LocalDate.parse(params.get("toDate"));
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("createdOn"), toDate.atTime(23, 59, 59)));
+            if (params.containsKey("toAmount") &&params.get("toAmount")!=null && !params.get("toAmount").isEmpty()) {
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("productAmount"), Double.valueOf(params.get("toAmount"))));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
