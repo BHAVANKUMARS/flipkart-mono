@@ -75,7 +75,7 @@
         <h2>Your Shopping Cart</h2>
 
         <!-- Search Form -->
-        <form class="mb-4">
+        <form class="mb-4" onsubmit="event.preventDefault();">
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <input type="text" id="productSearch" class="form-control" placeholder="Search for products..." oninput="filterProducts()">
@@ -84,8 +84,7 @@
         </form>
 
         <div id="productGrid">
-            <div class="product-card" th:each="product : ${cartProducts}"
-                 data-product-id="${product.productId}">
+            <div class="product-card" th:each="product : ${cartProducts}" data-product-id="${product.productId}">
                 <h6 th:text="${product.productId}" style="display: none;">Product Id</h6>
                 <img th:src="${product.imageUrl}" alt="${product.productName}" />
                 <h5 th:text="${product.productName}">Product Name</h5>
@@ -98,22 +97,93 @@
     </div>
 </div>
 
+<!-- Checkout Modal -->
+<div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="checkoutModalLabel">Checkout</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="checkoutProductDetails"></div>
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" class="form-control" id="quantity" value="1" min="1" onchange="updateTotalPrice()">
+                </div>
+                <div class="form-group">
+                    <label for="address">Delivery Address</label>
+                    <textarea class="form-control" id="address" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="deliveryOption">Delivery Option</label>
+                    <select id="deliveryOption" class="form-control" onchange="updateTotalPrice()">
+                        <option value="free">Free Delivery (5 Days)</option>
+                        <option value="paid">Paid Delivery (₹<span id="paidDeliveryFee">0.00</span>, 2 Days)</option>
+                    </select>
+                </div>
+                <p id="totalPrice" class="font-weight-bold">Total Price: ₹<span>0.00</span></p>
+                <button type="button" class="btn btn-primary" onclick="proceedCashless()">Cashless Order</button>
+                <button type="button" class="btn btn-secondary" onclick="showPayment()">Proceed to Payment</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Payment Modal -->
+<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paymentModalLabel">Payment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="text" class="form-control" id="cardNumber" placeholder="Enter your card number" required>
+                </div>
+                <div class="form-group">
+                    <label for="expiryDate">Expiry Date</label>
+                    <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" required>
+                </div>
+                <div class="form-group">
+                    <label for="cvv">CVV</label>
+                    <input type="text" class="form-control" id="cvv" placeholder="CVV" required>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <input type="text" class="form-control" id="amount" placeholder="Enter the amount" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="submitPayment()">Submit Payment</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
+    let productId;
+    let productName;
+    let productAmount;
+
     function filterProducts() {
         const searchInput = document.getElementById('productSearch').value.toLowerCase();
         const productCards = document.querySelectorAll('.product-card');
 
         productCards.forEach(card => {
-            const productName = card.querySelector('h5').innerText.toLowerCase();
-            if (productName.includes(searchInput)) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
+            const name = card.querySelector('h5').innerText.toLowerCase();
+            card.style.display = name.includes(searchInput) ? 'block' : 'none';
         });
     }
 
@@ -146,29 +216,50 @@
         });
     }
 
-    function buyNow(button) {
-        const productCard = button.closest('.product-card');
-        productId = productCard.querySelector('h6').innerText;
-        productName = productCard.querySelector('h5').innerText;
-        productAmount = parseFloat(productCard.querySelector('.font-weight-bold span').innerText.replace('₹', ''));
+   function buyNow(button) {
+    const productCard = button.closest('.product-card');
+    productId = productCard.querySelector('h6').innerText;
+    productName = productCard.querySelector('h5').innerText;
+    productAmount = parseFloat(productCard.querySelector('.font-weight-bold span').innerText.replace('₹', ''));
 
-        document.getElementById('checkoutProductDetails').innerHTML = `
-            <p>Product ID: ${productId}</p>
-            <p>Product Name: ${productName}</p>
-            <p>Amount: ₹${productAmount.toFixed(2)}</p>`;
+    document.getElementById('checkoutProductDetails').innerHTML = `
+        <p>Product ID: ${productId}</p>
+        <p>Product Name: ${productName}</p>
+        <p>Amount: ₹${productAmount.toFixed(2)}</p>`;
 
-        document.getElementById('quantity').value = 1;
-        updateTotalPrice();
-        $('#checkoutModal').modal('show');
+    document.getElementById('quantity').value = 1;
+
+    // Update total price before showing the modal
+    updateTotalPrice();
+    $('#checkoutModal').modal('show');
+}
+
+
+   function updateTotalPrice() {
+    const quantity = parseInt(document.getElementById('quantity').value, 10);
+    const deliveryOption = document.getElementById('deliveryOption').value;
+    const totalPriceElement = document.getElementById('totalPrice').querySelector('span');
+    const paidDeliveryFeeElement = document.getElementById('paidDeliveryFee');
+    const paidDeliveryFee = productAmount * 10;
+
+    let totalPrice = productAmount * quantity;
+    if (deliveryOption === 'paid') {
+        totalPrice += paidDeliveryFee;
+        if (paidDeliveryFeeElement) {
+            paidDeliveryFeeElement.innerText = paidDeliveryFee.toFixed(2);
+        }
+    } else {
+        if (paidDeliveryFeeElement) {
+            paidDeliveryFeeElement.innerText = '0.00';
+        }
     }
-
-    function updateTotalPrice() {
-        const quantity = parseInt(document.getElementById('quantity').value, 10);
-        const totalPrice = productAmount * quantity;
-        document.getElementById('totalPrice').querySelector('span').innerText = totalPrice.toFixed(2);
+    if (totalPriceElement) {
+        totalPriceElement.innerText = totalPrice.toFixed(2);
     }
+}
 
-     function proceedCashless() {
+
+    function proceedCashless() {
         const address = document.getElementById('address').value;
         if (!address) {
             alert('Please enter your delivery address before proceeding with a cashless order.');
@@ -176,7 +267,7 @@
         }
 
         const quantity = parseInt(document.getElementById('quantity').value, 10);
-        const totalPrice = productAmount * quantity;
+        const totalPrice = parseFloat(document.getElementById('totalPrice').querySelector('span').innerText);
 
         const amakartRequest = {
             userName: "", // This will be set on the server-side based on the session
@@ -184,7 +275,8 @@
             productName: productName,
             productAmount: productAmount,
             deliveryAddress: address,
-            quantity: quantity
+            quantity: quantity,
+            totalAmount: totalPrice
         };
 
         fetch('/customer/cashless/details', {
@@ -196,9 +288,9 @@
         })
         .then(response => response.text())
         .then(message => {
-            alert(message); // Show the message returned from the server
+            alert(message);
             $('#checkoutModal').modal('hide');
-            window.location.href = '/customer/dashboard'; // Redirect to dashboard or appropriate page
+            window.location.href = '/customer/dashboard';
         })
         .catch(error => {
             console.error('Error:', error);
@@ -206,9 +298,7 @@
         });
     }
 
-
     function showPayment() {
-
         const address = document.getElementById('address').value;
         if (!address) {
             alert('Please enter your delivery address before proceeding to payment.');
@@ -229,8 +319,8 @@
             return;
         }
 
-        if (isNaN(enteredAmount) || enteredAmount !== productAmount) {
-            alert(`Entered amount does not match the product amount (₹${productAmount.toFixed(2)}). Please try again.`);
+        if (isNaN(enteredAmount) || enteredAmount.toFixed(2) !== document.getElementById('totalPrice').querySelector('span').innerText) {
+            alert(`Entered amount does not match the total amount (₹${document.getElementById('totalPrice').querySelector('span').innerText}). Please try again.`);
             return;
         }
 
@@ -238,7 +328,7 @@
             userName: "", // This will be set on the server-side based on the session
             productId: productId,
             productName: productName,
-            paidAmount: enteredAmount, // Include the entered amount
+            paidAmount: enteredAmount,
             deliveryAddress: document.getElementById('address').value,
             quantity: parseInt(document.getElementById('quantity').value, 10)
         };
@@ -252,9 +342,9 @@
         })
         .then(response => response.text())
         .then(message => {
-            alert(message); // Alert the user with the message returned from the server
+            alert(message);
             $('#paymentModal').modal('hide');
-            window.location.href = '/customer/dashboard'; // Redirect to dashboard or appropriate page
+            window.location.href = '/customer/dashboard';
         })
         .catch(error => {
             console.error('Error:', error);

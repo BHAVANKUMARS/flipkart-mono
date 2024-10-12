@@ -20,6 +20,8 @@ public interface CustomerService {
 
     List<ProductDetails> getCartDetail(String userName);
 
+    void deleteShopCartDetail(Long productId,String userName);
+
     AmakartResponse getUserDetails(String username);
 
     Long getCustomerTotalCount();

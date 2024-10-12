@@ -142,7 +142,7 @@ public class CustomerServiceImpl implements CustomerService {
 
             shoppingCartRepo.save(shoppingCart);
 
-            return "Shopping Card Added";
+            return "Product Added in Shopping Cart";
         }else
             return "Already Added in Shopping Card";
     }
@@ -165,6 +165,17 @@ public class CustomerServiceImpl implements CustomerService {
                 });
 
         return productDetailsList;
+    }
+
+    @Override
+    public void deleteShopCartDetail(Long productId,String userName) {
+
+        Optional<UserDetails> userDetails = customerDetailsRepo.findByUserName(userName);
+
+        Optional<ShoppingCart> shoppingCart = shoppingCartRepo.findByUserIdAndProductId(userDetails.get().getUserId(), productId);
+
+        shoppingCartRepo.deleteById(shoppingCart.get().getId());
+
     }
 
     @Override

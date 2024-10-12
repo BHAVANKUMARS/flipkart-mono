@@ -216,6 +216,26 @@ public class CustomerWebController {
 
     }
 
+    @DeleteMapping("/cart/remove/{productId}")
+    public String saveShoppingCartDetails(@PathVariable Long productId,Model model){
+
+
+        String username = (String) httpSession.getAttribute("userName");
+
+        customerService.deleteShopCartDetail(productId,username);
+
+        log.info("productId : "+productId);
+        log.info("username : "+username);
+
+        List<ProductDetails> productDetails =customerService.getCartDetail(username);
+
+        productDetails.forEach(System.out::println);
+        model.addAttribute("cartProducts", productDetails);
+
+        return "cus-cart";
+
+    }
+
     @PostMapping("/cashless/details")
     @ResponseBody
     public String getOrderDetails(@RequestBody AmakartRequest amakartRequest,HttpServletRequest servletRequest){
