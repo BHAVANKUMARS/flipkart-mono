@@ -59,7 +59,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         boolean isUpdated = false;
 
-        Optional<UserDetails> adminDetails = customerDetailsRepo.findByUserNameAndPassword(loginRequest.getUserName(),loginRequest.getPassword());
+        Optional<UserDetails> adminDetails = customerDetailsRepo.findByUserName(loginRequest.getUserName());
 
         if(adminDetails.isPresent()) {
 
