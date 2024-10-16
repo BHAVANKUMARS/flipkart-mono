@@ -38,5 +38,10 @@ public class AmakartRequest {
 
     private String deliveryOption;
 
+    private String orderId;
+
+    private String orderStatus;
+
+    private String paymentStatus;
 
 }

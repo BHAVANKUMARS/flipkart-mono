@@ -93,8 +93,6 @@
                     <option value="">Select Status</option>
                     <option value="PENDING">Pending</option>
                     <option value="DELIVERED">Completed</option>
-<!--                    <option value="NOT DELIVERED">Cancelled</option>-->
-                    <!-- Add more status options as needed -->
                 </select>
             </div>
             <div class="form-group col-md-2 d-flex align-items-end">
@@ -113,6 +111,7 @@
             <th>Payment Status</th>
             <th>Delivery Option</th>
             <th>Order Date</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -123,14 +122,109 @@
             <td th:text="${order.paymentStatus}"></td>
             <td th:text="${order.deliveryOption}"></td>
             <td th:text="${order.orderDate}"></td>
+            <td>
+                <button type="button" class="btn btn-warning"
+                        th:data-order-id="${order.orderId}"
+                        th:data-order-status="${order.orderStatus}"
+                        th:data-payment-status="${order.paymentStatus}"
+                        onclick="openEditModal(this)">
+                    Edit
+                </button>
+            </td>
         </tr>
         </tbody>
     </table>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Order Status</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editOrderForm">
+                    <input type="hidden" id="editOrderId" name="orderId">
+                    <div class="form-group">
+                        <label for="editOrderStatus">Order Status</label>
+                        <select id="editOrderStatus" name="orderStatus" class="form-control">
+                            <option value="NOT_DELIVERED">Not Delivered</option>
+                            <option value="DELIVERED">Delivered</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPaymentStatus">Payment Status</label>
+                        <select id="editPaymentStatus" name="paymentStatus" class="form-control">
+                            <option value="SUCCESS">Success</option>
+                            <option value="PENDING">Pending</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="updateOrderStatus()">Save changes</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function openEditModal(button) {
+        const orderId = button.dataset.orderId;
+        const orderStatus = button.dataset.orderStatus;
+        const paymentStatus = button.dataset.paymentStatus;
+
+        $('#editOrderId').val(orderId);
+        $('#editOrderStatus').val(orderStatus);
+        $('#editPaymentStatus').val(paymentStatus);
+
+        const isEditable = orderStatus !== 'DELIVERED' && paymentStatus !== 'SUCCESS';
+        $('#editOrderStatus').prop('disabled', !isEditable);
+
+        $('#editModal').modal('show');
+    }
+
+    function updateOrderStatus() {
+        const orderId = $('#editOrderId').val();
+        const orderStatus = $('#editOrderStatus').val();
+        const paymentStatus = $('#editPaymentStatus').val();
+
+        if (!orderId) {
+            alert('Order ID is required.');
+            return;
+        }
+
+        const amakartRequest = {
+            orderId: orderId,
+            orderStatus: orderStatus,
+            paymentStatus: paymentStatus
+        };
+
+        fetch('/admin/orders/update', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(amakartRequest),
+        })
+        .then(data => {
+            alert('Order updated successfully!');
+            window.location.href = '/admin/orders';
+            })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while updating the order. Please try again.');
+        });
+    }
+</script>
 </body>
 </html>

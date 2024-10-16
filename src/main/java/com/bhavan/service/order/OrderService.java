@@ -18,4 +18,7 @@ public interface OrderService {
     List<OrderDetails> getAllOrderDetails();
 
     public List<OrderDetails> searchCriteria(Map<String, String> params) ;
+
+    public void updateOrderDetails(AmakartRequest amakartRequest);
+
     }

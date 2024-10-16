@@ -11,6 +11,7 @@ import com.bhavan.repository.order.OrderRepository;
 import com.bhavan.repository.payment.PaymentRepository;
 import com.bhavan.repository.product.ProductDetailsRepo;
 import com.bhavan.service.order.OrderService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,11 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
@@ -114,6 +117,28 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDetails> searchCriteria(Map<String, String> params) {
         Specification<OrderDetails> spec = OrderSpecification.searchByCriteria(params);
         return orderRepository.findAll(spec);
+    }
+
+    @Override
+    public void updateOrderDetails(AmakartRequest amakartRequest) {
+
+        log.info("amakartRequest"+amakartRequest);
+
+        Long orderId = Long.valueOf(amakartRequest.getOrderId());
+
+        Optional<OrderDetails> orderDetail =orderRepository.findById(orderId);
+        OrderDetails o = orderDetail.get();
+        o.setStatus(amakartRequest.getOrderStatus());
+        orderRepository.save(o);
+
+        Optional<PaymentDetails> p =paymentRepository.findById(o.getPaymentId());
+        PaymentDetails paymentDetails = p.get();
+        paymentDetails.setStatus(amakartRequest.getPaymentStatus());
+        paymentRepository.save(paymentDetails);
+
+        System.out.println("Order Details Updated successfully");
+
+
     }
 
 

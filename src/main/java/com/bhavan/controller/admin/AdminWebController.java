@@ -235,6 +235,14 @@ public class AdminWebController {
         return "orders";
     }
 
+    @PostMapping(value = {"/orders/update"})
+    @ResponseBody
+    public String updateOrderDetails(@RequestBody AmakartRequest amakartRequest){
+
+        orderService.updateOrderDetails(amakartRequest);
+        return "Order Details Updated successfully";
+    }
+
     @GetMapping("/products")
     public String getProductsPage(Model model, @RequestParam Map<String, String> params) {
         // Fetch products based on search criteria from params
