@@ -41,6 +41,7 @@ public class PaymentServiceImpl implements PaymentService {
                 .userId(userId)
                 .paymentId(paymentDetails.getPaymentId())
                 .deliveryAddress(amakartRequest.getDeliveryAddress())
+                .deliveryOptions(amakartRequest.getDeliveryOption())
                 .productAmount(amakartRequest.getProductAmount()).build();
 
         orderRepository.save(orderDetails);

@@ -114,15 +114,15 @@
                     <input type="number" class="form-control" id="quantity" value="1" min="1" onchange="updateTotalPrice()">
                 </div>
                 <div class="form-group">
-                    <label for="address">Delivery Address</label>
-                    <textarea class="form-control" id="address" rows="3" required></textarea>
+                    <label>Delivery Options:</label><br>
+                    <input type="radio" id="freeDelivery" name="delivery" value="free" checked>
+                    <label for="freeDelivery">Free Delivery (5 Days)</label><br>
+                    <input type="radio" id="paidDelivery" name="delivery" value="paid">
+                    <label for="paidDelivery">Paid Delivery (2 Days - ₹100 Extra)</label>
                 </div>
                 <div class="form-group">
-                    <label for="deliveryOption">Delivery Option</label>
-                    <select id="deliveryOption" class="form-control" onchange="updateTotalPrice()">
-                        <option value="free">Free Delivery (5 Days)</option>
-                        <option value="paid">Paid Delivery (₹<span id="paidDeliveryFee">0.00</span>, 2 Days)</option>
-                    </select>
+                    <label for="address">Delivery Address</label>
+                    <textarea class="form-control" id="address" rows="3" required></textarea>
                 </div>
                 <p id="totalPrice" class="font-weight-bold">Total Price: ₹<span>0.00</span></p>
                 <button type="button" class="btn btn-primary" onclick="proceedCashless()">Cashless Order</button>
@@ -176,6 +176,8 @@
     let productId;
     let productName;
     let productAmount;
+    let totalAmount;
+    let deliveryChoice;
 
     function filterProducts() {
         const searchInput = document.getElementById('productSearch').value.toLowerCase();
@@ -236,27 +238,11 @@
 
 
    function updateTotalPrice() {
-    const quantity = parseInt(document.getElementById('quantity').value, 10);
-    const deliveryOption = document.getElementById('deliveryOption').value;
-    const totalPriceElement = document.getElementById('totalPrice').querySelector('span');
-    const paidDeliveryFeeElement = document.getElementById('paidDeliveryFee');
-    const paidDeliveryFee = productAmount * 10;
-
-    let totalPrice = productAmount * quantity;
-    if (deliveryOption === 'paid') {
-        totalPrice += paidDeliveryFee;
-        if (paidDeliveryFeeElement) {
-            paidDeliveryFeeElement.innerText = paidDeliveryFee.toFixed(2);
-        }
-    } else {
-        if (paidDeliveryFeeElement) {
-            paidDeliveryFeeElement.innerText = '0.00';
-        }
+        const quantity = parseInt(document.getElementById('quantity').value, 10);
+        const totalPrice = productAmount * quantity;
+        document.getElementById('totalPrice').querySelector('span').innerText = totalPrice.toFixed(2);
+        return totalPrice;
     }
-    if (totalPriceElement) {
-        totalPriceElement.innerText = totalPrice.toFixed(2);
-    }
-}
 
 
     function proceedCashless() {
@@ -269,15 +255,28 @@
         const quantity = parseInt(document.getElementById('quantity').value, 10);
         const totalPrice = parseFloat(document.getElementById('totalPrice').querySelector('span').innerText);
 
+       // Get selected delivery option
+        const deliveryOption = document.querySelector('input[name="delivery"]:checked').value;
+        let deliveryCharge = 0;
+        if (deliveryOption === 'paid') {
+            deliveryCharge = 100; // Extra charge for paid delivery
+        }
+        deliveryChoice = deliveryOption;
+        totalAmount = totalPrice + deliveryCharge;
+
+        console.log('Total Amount:', totalAmount); // Debugging line
+        console.log('deliveryChoice:', deliveryChoice); // Debugging line
+
+
         const amakartRequest = {
-            userName: "", // This will be set on the server-side based on the session
             productId: productId,
             productName: productName,
-            productAmount: productAmount,
+            productAmount: totalPrice + deliveryCharge,
             deliveryAddress: address,
             quantity: quantity,
-            totalAmount: totalPrice
+            deliveryOption: deliveryOption
         };
+
 
         fetch('/customer/cashless/details', {
             method: 'POST',
@@ -319,17 +318,30 @@
             return;
         }
 
-        if (isNaN(enteredAmount) || enteredAmount.toFixed(2) !== document.getElementById('totalPrice').querySelector('span').innerText) {
-            alert(`Entered amount does not match the total amount (₹${document.getElementById('totalPrice').querySelector('span').innerText}). Please try again.`);
-            return;
+       const deliveryOption = document.querySelector('input[name="delivery"]:checked').value;
+        let deliveryCharge = 0;
+        if (deliveryOption === 'paid') {
+            deliveryCharge = 100; // Extra charge for paid delivery
         }
+
+        totalAmount = updateTotalPrice()+ deliveryCharge;
+
+         console.log('Total Amount:', totalAmount); // Debugging line
+         console.log('Entered Amount:', enteredAmount); // Debugging line
+         console.log('deliveryOption:', deliveryOption); // Debugging line
+
+        if (isNaN(enteredAmount) || enteredAmount !== totalAmount) {
+        alert(`Entered amount does not match the product amount (₹${totalAmount ? totalAmount.toFixed(2) : 'N/A'}). Please try again.`);
+        return;
+    }
 
         const amakartRequest = {
             userName: "", // This will be set on the server-side based on the session
             productId: productId,
             productName: productName,
-            paidAmount: enteredAmount,
+            paidAmount: enteredAmount, // Include the entered amount
             deliveryAddress: document.getElementById('address').value,
+            deliveryOption: deliveryOption,
             quantity: parseInt(document.getElementById('quantity').value, 10)
         };
 

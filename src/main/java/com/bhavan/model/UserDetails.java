@@ -37,5 +37,5 @@ public class UserDetails {
 
     @UpdateTimestamp
     @Column(name = "updated_on")
-    private LocalDate updatedOn;
+    private LocalDate created_on;
 }

@@ -39,6 +39,9 @@ public class OrderDetails {
 
     private String status;
 
+    @Column(name = "delivery_options")
+    private String deliveryOptions;
+
     @CreationTimestamp
     @Column(name = "created_on", updatable = false)
     private LocalDate createdOn;

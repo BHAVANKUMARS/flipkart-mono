@@ -38,4 +38,6 @@ public class AmakartResponse {
 
     private LocalDate orderDate;
 
+    private String deliveryOption;
+
 }

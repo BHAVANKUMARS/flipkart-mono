@@ -36,5 +36,7 @@ public class AmakartRequest {
 
     private String deliveryAddress;
 
+    private String deliveryOption;
+
 
 }

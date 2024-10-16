@@ -111,6 +111,7 @@
             <th>Order Name</th>
             <th>Order Status</th>
             <th>Payment Status</th>
+            <th>Delivery Option</th>
             <th>Order Date</th>
         </tr>
         </thead>
@@ -120,6 +121,7 @@
             <td th:text="${order.productName}"></td>
             <td th:text="${order.orderStatus}"></td>
             <td th:text="${order.paymentStatus}"></td>
+            <td th:text="${order.deliveryOption}"></td>
             <td th:text="${order.orderDate}"></td>
         </tr>
         </tbody>

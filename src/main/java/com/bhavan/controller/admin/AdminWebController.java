@@ -185,7 +185,7 @@ public class AdminWebController {
                     amakartResponse.setProductName(productDetails.getProductName());
                     amakartResponse.setOrderStatus(o.getStatus().equalsIgnoreCase("PENDING") ?"NOT DELIVERED":"DELIVERED");
                     amakartResponse.setPaymentStatus(paymentDetails.getStatus().equals("PENDING")?"PAYMENT_PENDING":"PAYMENT_SUCCESS");
-
+                    amakartResponse.setDeliveryOption(o.getDeliveryOptions());
                     amakartResponsesList.add(amakartResponse);
                 }
             }
@@ -220,6 +220,8 @@ public class AdminWebController {
                     amakartResponse.setProductName(productDetails.getProductName());
                     amakartResponse.setOrderStatus(o.getStatus().equalsIgnoreCase("PENDING") ?"NOT DELIVERED":"DELIVERED");
                     amakartResponse.setPaymentStatus(paymentDetails.getStatus().equals("PENDING")?"PAYMENT_PENDING":"PAYMENT_SUCCESS");
+                    amakartResponse.setDeliveryOption(o.getDeliveryOptions());
+
 
                     amakartResponsesList.add(amakartResponse);
                 }

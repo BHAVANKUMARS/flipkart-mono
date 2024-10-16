@@ -55,6 +55,7 @@ public class OrderServiceImpl implements OrderService {
                 .paymentId(paymentDetails.getPaymentId())
                 .productAmount(amakartRequest.getProductAmount())
                 .deliveryAddress(amakartRequest.getDeliveryAddress())
+                .deliveryOptions(amakartRequest.getDeliveryOption())
         .build();
 
         orderRepository.save(orderDetails);

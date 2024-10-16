@@ -1,0 +1,7 @@
+select * from admin_details;
+select * from categories;
+select * from category_product_map;
+select * from order_details;
+select * from payment_details;
+select * from product_details;
+select * from user_details;
